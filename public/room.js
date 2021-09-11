@@ -10,7 +10,7 @@ myVideo.muted = true;
 let peer = new Peer(undefined, {
   path: "/peerjs", // Coming from server
   host: "/",
-  port: "4000", // On same port as express server
+  port: "443",
 });
 
 // Gets video and audio from chrome
