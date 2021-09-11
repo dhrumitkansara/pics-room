@@ -1,4 +1,4 @@
-// JS for frontend lives here...
+// JS for room frontend lives here...
 
 // Import statements
 const socket = io("/");
@@ -15,7 +15,7 @@ let peer = new Peer(undefined, {
   port: "443",
 });
 
-// Gets video and audio from chrome
+// Gets video and audio from browser
 navigator.mediaDevices
   .getUserMedia({
     video: true,
@@ -65,8 +65,6 @@ const addVideoStream = (video, stream) => {
 btnCapture.addEventListener("click", () => {
   let canvas = document.createElement("canvas");
   let context = canvas.getContext("2d");
-  let width = myVideo.width;
-  let height = myVideo.height;
   context.drawImage(myVideo, 0, 0, 400, 300);
 
   let data = canvas.toDataURL("image/png");

@@ -1,37 +1,37 @@
-async function getWebCam() {
-  try {
-    const videoSrc = await navigator.mediaDevices.getUserMedia({ video: true });
-    var video = document.getElementById("video");
-    video.srcObject = videoSrc;
-  } catch (e) {
-    console.log(e);
-  }
-}
+// JS for selfie frontend lives here...
 
-getWebCam();
-var capture = document.getElementById("capture");
-var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
+const videoGrid = document.getElementById("video-grid"); // Getting video-grid div
+const myVideo = document.createElement("video"); // Creating video element in HTML
+myVideo.muted = true;
 
-capture.addEventListener("click", function () {
-  context.drawImage(video, 0, 0, 650, 490);
+const btnCapture = document.getElementById("btn-capture");
 
-  canvas.toBlob((blob) => {
-    takePicture(
-      blob,
-      `snapshot-${new Date().toJSON().slice(0, 10).replace(/-/g, "")}.png`
-    );
+// Gets video and audio from browser
+navigator.mediaDevices
+  .getUserMedia({
+    video: true,
+    audio: false,
+  })
+  .then((stream) => {
+    myVideoStream = stream;
+    addVideoStream(myVideo, stream);
   });
 
-  const takePicture = (function () {
-    const a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style.display = "none";
-    return function saveData(blob, fileName) {
-      const url = window.URL.createObjectURL(blob);
-      a.href = url;
-      a.download = fileName;
-      a.click();
-    };
-  })();
+// Adding video stream
+const addVideoStream = (video, stream) => {
+  video.srcObject = stream; // Adding stream to video source
+  video.addEventListener("loadedmetadata", () => {
+    video.play(); // Plays video when video data is loaded
+  });
+  videoGrid.append(video); // Appending video to video-grid div
+};
+
+btnCapture.addEventListener("click", () => {
+  let canvas = document.createElement("canvas");
+  let context = canvas.getContext("2d");
+  context.drawImage(myVideo, 0, 0, 400, 300);
+
+  let data = canvas.toDataURL("image/png");
+  videoGrid.innerHTML = "";
+  videoGrid.innerHTML = `<img src='${data}' width = '400' height = '300' alt='The screen capture will appear here.' />`;
 });

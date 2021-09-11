@@ -10,6 +10,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
   </head>
   <body>
     <div class="main">
@@ -18,15 +19,13 @@
           <h2>Pics Room</h2>
         </a>
       </div>
-      <h1>Take selfie!!!</h1>
-      <div class="category__card">
-        <div class="main__videos">
-          <!-- Div to add video stream on UI -->
-          <div id="video-grid"></div>
-        </div>
-        <canvas id="canvas" class="main__videos"></canvas>
+      <h1>Welcome to Selfie!!!</h1>
+      <div class="main__videos">
+        <!-- Div to add video stream on UI -->
+        <div id="video-grid"></div>
       </div>
       <button
+        id="btn-capture"
         class="fas fa-camera"
         style="color: black; height: 50px; width: 200px; cursor: pointer"
       >
