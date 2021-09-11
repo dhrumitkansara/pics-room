@@ -37,6 +37,7 @@ const addVideoStream = (video, stream) => {
 
 btnCapture.addEventListener("click", () => {
   let reCaptureButton = document.createElement("button"); // Creating recapture button
+  let dowloadButton = document.createElement("button"); // Creating download button
   let canvas = document.createElement("canvas");
   let context = canvas.getContext("2d");
   context.drawImage(myVideo, 0, 0, 400, 300);
@@ -49,7 +50,6 @@ btnCapture.addEventListener("click", () => {
   // HTML for recapture button
   reCaptureButton.innerHTML = `
   <button
-    id="btn-capture"
     class="fas fa-camera"
     style="color: black; height: 50px; width: 200px; cursor: pointer"
     onclick="window.location.reload()"
@@ -58,7 +58,34 @@ btnCapture.addEventListener("click", () => {
   </button>`;
 
   captureDiv.appendChild(reCaptureButton); // Appending recapture button on UI
+
+  // HTML for download button
+  dowloadButton.innerHTML = `
+  <button
+    class="fas fa-download"
+    style="color: black; height: 50px; width: 200px; cursor: pointer"
+    onclick="downloadImage()"
+  >
+    <span>Download</span>
+  </button>`;
+
+  captureDiv.appendChild(dowloadButton); // Appending download button on UI
 });
+
+// Function to download captured image
+const downloadImage = () => {
+  const captureURL = canvasOutput.toDataURL("image/png");
+  // Creating and setting up document for downloading captured image
+  const a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style.display = "none";
+  a.href = captureURL;
+  a.download = `snapshot-${new Date()
+    .toJSON()
+    .slice(0, 10)
+    .replace(/-/g, "")}.png`;
+  a.click();
+};
 
 // Init function that executes on page load for setting up stuff for other background load
 const init = () => {
