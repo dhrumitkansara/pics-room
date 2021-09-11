@@ -61,11 +61,11 @@ const addVideoStream = (video, stream) => {
 };
 
 let btnCapture = document.getElementById("btn-capture");
-let videoCanvas = document.getElementById("main__videos");
+let videoCanvas = document.getElementById("video-grid");
 
 function takeScreenshot() {
   console.log("I am takeScreenshot()");
-  let div = document.getElementById("main__videos");
+  let div = document.getElementById("video-grid");
 
   // Use the html2canvas
   // function to take a screenshot
