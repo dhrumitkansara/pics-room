@@ -63,15 +63,27 @@ const addVideoStream = (video, stream) => {
 let btnCapture = document.getElementById("btn-capture");
 let videoCanvas = document.getElementById("video-grid");
 
-function takeScreenshot() {
-  console.log("I am takeScreenshot()");
-  let div = document.getElementById("video-grid");
+btnCapture.addEventListener(
+  "click",
+  () => {
+    videoCanvas.toBlob((blob) => {
+      takePicture(
+        blob,
+        `snapshot-${new Date().toJSON().slice(0, 10).replace(/-/g, "")}.png`
+      );
+    });
+  },
+  false
+);
 
-  // Use the html2canvas
-  // function to take a screenshot
-  // and append it
-  // to the output div
-  html2canvas(div).then(function (canvas) {
-    document.getElementById("output").appendChild(canvas);
-  });
-}
+const takePicture = (function () {
+  const a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style.display = "none";
+  return function saveData(blob, fileName) {
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    // a.download = fileName;
+    a.click();
+  };
+})();
