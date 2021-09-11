@@ -59,3 +59,19 @@ const addVideoStream = (video, stream) => {
   });
   videoGrid.append(video); // Appending video to video-grid div
 };
+
+let btnCapture = document.getElementById("btn-capture");
+let videoCanvas = document.getElementById("main__videos");
+
+function takeScreenshot() {
+  console.log("I am takeScreenshot()");
+  let div = document.getElementById("main__videos");
+
+  // Use the html2canvas
+  // function to take a screenshot
+  // and append it
+  // to the output div
+  html2canvas(div).then(function (canvas) {
+    document.getElementById("output").appendChild(canvas);
+  });
+}

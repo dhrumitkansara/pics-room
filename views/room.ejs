@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pics Room</title>
+    <title>Room | Pics Room</title>
     <link rel="stylesheet" href="style.css" />
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
@@ -15,6 +15,7 @@
     <script>
       const ROOM_ID = "<%= roomId %>";
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
   </head>
   <body>
     <div class="main">
@@ -24,16 +25,19 @@
         </a>
       </div>
       <h1>Welcome to Group Selfie!!!</h1>
-      <div class="main__videos">
+      <div id="main__videos" class="main__videos">
         <!-- Div to add video stream on UI -->
         <div id="video-grid"></div>
       </div>
       <button
+        id="btn-capture"
         class="fas fa-camera"
         style="color: black; height: 50px; width: 200px; cursor: pointer"
+        onclick="takeScreenshot()"
       >
         <span>Capture</span>
       </button>
+      <div id="output"></div>
       <p>Copyright © 2021 Cactus Creatives. All rights reserved</p>
     </div>
 
