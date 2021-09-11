@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
   </head>
   <body>
-    <div class="main">
+    <div id="main" class="main">
       <div class="header">
         <a href="/" class="header__link">
           <h2>Pics Room</h2>
@@ -23,14 +23,17 @@
       <div class="main__videos">
         <!-- Div to add video stream on UI -->
         <div id="video-grid"></div>
+        <canvas id="output-canvas" width="400" height="300"></canvas>
       </div>
-      <button
-        id="btn-capture"
-        class="fas fa-camera"
-        style="color: black; height: 50px; width: 200px; cursor: pointer"
-      >
-        <span>Capture</span>
-      </button>
+      <div id="capture-div">
+        <button
+          id="btn-capture"
+          class="fas fa-camera"
+          style="color: black; height: 50px; width: 200px; cursor: pointer"
+        >
+          <span>Capture</span>
+        </button>
+      </div>
       <p>Copyright © 2021 Cactus Creatives. All rights reserved</p>
     </div>
     <script src="selfie.js"></script>
