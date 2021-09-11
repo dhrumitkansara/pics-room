@@ -7,6 +7,8 @@ const videoGrid = document.getElementById("video-grid"); // Getting video-grid d
 const myVideo = document.createElement("video"); // Creating video element in HTML
 myVideo.muted = true;
 
+const btnCapture = document.getElementById("btn-capture");
+
 let peer = new Peer(undefined, {
   path: "/peerjs", // Coming from server
   host: "/",
@@ -60,30 +62,14 @@ const addVideoStream = (video, stream) => {
   videoGrid.append(video); // Appending video to video-grid div
 };
 
-let btnCapture = document.getElementById("btn-capture");
-let videoCanvas = document.getElementById("video-grid");
+btnCapture.addEventListener("click", () => {
+  let canvas = document.createElement("canvas");
+  let context = canvas.getContext("2d");
+  let width = myVideo.width;
+  let height = myVideo.height;
+  context.drawImage(myVideo, 0, 0, 400, 300);
 
-btnCapture.addEventListener(
-  "click",
-  () => {
-    videoCanvas.toBlob((blob) => {
-      takePicture(
-        blob,
-        `snapshot-${new Date().toJSON().slice(0, 10).replace(/-/g, "")}.png`
-      );
-    });
-  },
-  false
-);
-
-const takePicture = (function () {
-  const a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style.display = "none";
-  return function saveData(blob, fileName) {
-    const url = window.URL.createObjectURL(blob);
-    a.href = url;
-    // a.download = fileName;
-    a.click();
-  };
-})();
+  let data = canvas.toDataURL("image/png");
+  videoGrid.innerHTML = "";
+  videoGrid.innerHTML = `<img src='${data}' width = '400' height = '300' alt='The screen capture will appear here.' />`;
+});
