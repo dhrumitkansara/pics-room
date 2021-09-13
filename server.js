@@ -43,6 +43,10 @@ io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId) => {
     socket.join(roomId); // Joining room with specified id
     socket.to(roomId).emit("user-connected", userId); // Emitting that the user with id has joined the room
+
+    socket.on("disconnect", () => {
+      socket.to(roomId).emit("user-disconnected", userId);
+    });
   });
 });
 
