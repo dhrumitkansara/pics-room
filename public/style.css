@@ -6,6 +6,7 @@
 #video-grid {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 video {
@@ -33,6 +34,10 @@ video {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.frames {
+  position: relative;
 }
 
 .category__card {
