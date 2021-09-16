@@ -51,15 +51,15 @@ const removeBackground = async () => {
 
 const drawBody = (personSegmentation) => {
   contextPerson.drawImage(myVideo, 0, 0, myVideo.width, myVideo.height);
-  var imageData = contextPerson.getImageData(
+  let imageData = contextPerson.getImageData(
     0,
     0,
     myVideo.width,
     myVideo.height
   );
-  var pixel = imageData.data;
+  let pixel = imageData.data;
 
-  for (var p = 0; p < pixel.length; p += 4) {
+  for (let p = 0; p < pixel.length; p += 4) {
     if (personSegmentation.data[p / 4] == 0) {
       pixel[p + 3] = 0;
     }
