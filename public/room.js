@@ -11,13 +11,6 @@ const peers = {};
 const btnCapture = document.getElementById("btn-capture");
 
 let captureDiv = document.getElementById("capture-div");
-// let canvasOutput = document.getElementById("output-canvas");
-// let outputContext = canvasOutput.getContext("2d");
-
-// // Creating temp canvas for processing each frame before outputting it
-// let canvasTemp = document.createElement("canvas");
-// let tempContext = canvasTemp.getContext("2d");
-// let backgroundVideo = document.createElement("video");
 
 let peer = new Peer(undefined, {
   path: "/peerjs", // Coming from server

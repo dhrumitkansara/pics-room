@@ -1,12 +1,15 @@
-const videoGrid = document.getElementById("video-grid");
-const myVideo = document.createElement("video");
+// JS for virtual background frontend lives here...
+
+const videoGrid = document.getElementById("video-grid"); // Getting video-grid div
+const myVideo = document.createElement("video"); // Creating video element in HTML
 myVideo.muted = true;
 myVideo.setAttribute("width", "400");
 myVideo.setAttribute("height", "300");
 
-const canvasPerson = document.getElementById("output-canvas");
-let contextPerson = canvasPerson.getContext("2d");
+const outputCanvas = document.getElementById("output-canvas");
+let outputContext = outputCanvas.getContext("2d");
 
+// Gets video and audio from browser
 navigator.mediaDevices
   .getUserMedia({
     video: true,
@@ -14,20 +17,21 @@ navigator.mediaDevices
   })
   .then((stream) => {
     myVideoStream = stream;
-    addVideoStream(myVideo, stream);
+    addVideoStream(myVideo, stream); // Passing video element and stream to addVideoStream()
   });
 
+// Adding video stream
 const addVideoStream = (video, stream) => {
-  video.srcObject = stream;
+  video.srcObject = stream; // Adding stream to video source
   video.addEventListener("loadeddata", () => {
-    video.play();
-    removeBackground();
+    video.play(); // Plays video when video data is loaded
+    removeBackground(); // Calling removeBackground() function for removing background from stream
   });
-  videoGrid.append(video);
+  videoGrid.append(video); // Appending video to video-grid div
 };
 
 const removeBackground = async () => {
-  // Loading the model
+  // Loading bodyPix model
   const net = await bodyPix.load({
     architecture: "MobileNetV1",
     outputStride: 16,
@@ -35,23 +39,25 @@ const removeBackground = async () => {
     quantBytes: 2,
   });
 
+  // For getting segment of human from stream
   const segmentation = await net
     .segmentPerson(myVideo, {
       flipHorizontal: true,
-      internalResolution: "medium",
+      internalResolution: "medium", // Keeping resolution medium for low and mid end devices
       segmentationThreshold: 0.5,
     })
     .then((personSegmentation) => {
       if (personSegmentation != null) {
-        drawBody(personSegmentation);
+        drawBody(personSegmentation); // Calling draw segment method to draw human segment on the canvas
       }
     });
-  setTimeout(removeBackground, 0);
+  setTimeout(removeBackground, 0); // Calling setTimeout to constantly keep calling it
 };
 
+// For drawing the human segment onto the canvas
 const drawBody = (personSegmentation) => {
-  contextPerson.drawImage(myVideo, 0, 0, myVideo.width, myVideo.height);
-  let imageData = contextPerson.getImageData(
+  outputContext.drawImage(myVideo, 0, 0, myVideo.width, myVideo.height);
+  let imageData = outputContext.getImageData(
     0,
     0,
     myVideo.width,
@@ -64,6 +70,6 @@ const drawBody = (personSegmentation) => {
       pixel[p + 3] = 0;
     }
   }
-  contextPerson.imageSmoothingEnabled = true;
-  contextPerson.putImageData(imageData, 0, 0);
+  outputContext.imageSmoothingEnabled = true;
+  outputContext.putImageData(imageData, 0, 0);
 };
