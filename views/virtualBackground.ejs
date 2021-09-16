@@ -4,17 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Selfie | Pics Room</title>
-
-    <!-- Load FontAwesome -->
-    <script
-      src="https://kit.fontawesome.com/b73d33b5ff.js"
-      crossorigin="anonymous"
-    ></script>
-
+    <title>Virtual Background</title>
     <link rel="stylesheet" href="style.css" />
-
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
   </head>
   <body>
     <div id="main" class="main">
@@ -24,19 +15,11 @@
         </a>
       </div>
       <h1>Take Selfie!!!</h1>
-      <div class="main__videos" id="main-videos">
-        <!-- Div to add video stream on UI -->
-        <div id="video-grid"></div>
-        <img
-          src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
-          alt="Frame"
-          width="450"
-          height="320"
-          style="position: absolute; z-index: 9999; margin-top: 5px"
-        />
-        <!-- <canvas id="output-canvas" width="400" height="300"></canvas> -->
-      </div>
 
+      <div class="main__videos">
+        <div id="video-grid"></div>
+        <canvas id="output-canvas" width="400" height="300"></canvas>
+      </div>
       <div id="capture-div">
         <button
           id="btn-capture"
@@ -48,6 +31,11 @@
       </div>
       <p>Copyright © 2021 Cactus Creatives. All rights reserved</p>
     </div>
-    <script src="selfie.js"></script>
+
+    <!-- Load TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2"></script>
+    <!-- Load BodyPix -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0"></script>
+    <script src="virtualBackground.js"></script>
   </body>
 </html>
