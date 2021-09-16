@@ -18,6 +18,10 @@ app.get("/", (req, res) => {
   res.render("main");
 });
 
+app.get("/virtual-background", (req, res) => {
+  res.render("virtualBackground");
+});
+
 app.get("/selfie", (req, res) => {
   res.render("selfie");
 });

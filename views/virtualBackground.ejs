@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual Background</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Load FontAwesome -->
+    <!-- <script
+      src="https://kit.fontawesome.com/b73d33b5ff.js"
+      crossorigin="anonymous"
+    ></script> -->
+  </head>
+  <body>
+    <div id="main" class="main">
+      <div class="header">
+        <a href="/" class="header__link">
+          <h2>Pics Room</h2>
+        </a>
+      </div>
+      <h1>Take Selfie!!!</h1>
+      <div class="main__videos">
+        <!-- Div to add video stream on UI -->
+        <div id="video-grid"></div>
+        <canvas id="output-canvas" width="400" height="300"></canvas>
+      </div>
+
+      <div id="capture-div">
+        <button
+          id="btn-capture"
+          class="fas fa-camera"
+          style="color: black; height: 50px; width: 200px; cursor: pointer"
+        >
+          <span>Capture</span>
+        </button>
+      </div>
+      <p>Copyright © 2021 Cactus Creatives. All rights reserved</p>
+    </div>
+
+    <!-- Load TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2"></script>
+    <!-- Load BodyPix -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.0"></script>
+
+    <script src="virtualBackground.js"></script>
+  </body>
+</html>
