@@ -58,32 +58,32 @@ btnCapture.addEventListener("click", () => {
   captureDiv.appendChild(reCaptureButton); // Appending recapture button on UI
 
   // HTML for download button
-  dowloadButton.innerHTML = `
-  <button
-    class="fas fa-download"
-    style="color: black; height: 50px; width: 200px; cursor: pointer"
-    onclick="downloadImage()"
-  >
-    <span>Download</span>
-  </button>`;
+  // dowloadButton.innerHTML = `
+  // <button
+  //   class="fas fa-download"
+  //   style="color: black; height: 50px; width: 200px; cursor: pointer"
+  //   onclick="downloadImage()"
+  // >
+  //   <span>Download</span>
+  // </button>`;
 
-  captureDiv.appendChild(dowloadButton); // Appending download button on UI
+  // captureDiv.appendChild(dowloadButton); // Appending download button on UI
 });
 
 // Function to download captured image
-const downloadImage = () => {
-  html2canvas(document.getElementById("main-videos")).then((canvas) => {
-    document.body.append(canvas);
-    const captureURL = canvas.toDataURL("image/png");
-    // Creating and setting up document for downloading captured image
-    const a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style.display = "none";
-    a.href = captureURL;
-    a.download = `snapshot-${new Date()
-      .toJSON()
-      .slice(0, 10)
-      .replace(/-/g, "")}.png`;
-    a.click();
-  });
-};
+// const downloadImage = () => {
+//   html2canvas(document.getElementById("main-videos")).then((canvas) => {
+//     document.body.append(canvas);
+//     const captureURL = canvas.toDataURL("image/png");
+//     // Creating and setting up document for downloading captured image
+//     const a = document.createElement("a");
+//     document.body.appendChild(a);
+//     a.style.display = "none";
+//     a.href = captureURL;
+//     a.download = `snapshot-${new Date()
+//       .toJSON()
+//       .slice(0, 10)
+//       .replace(/-/g, "")}.png`;
+//     a.click();
+//   });
+// };
