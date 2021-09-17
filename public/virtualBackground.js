@@ -6,6 +6,10 @@ myVideo.muted = true;
 myVideo.setAttribute("width", "400");
 myVideo.setAttribute("height", "300");
 
+const btnCapture = document.getElementById("btn-capture");
+
+let captureDiv = document.getElementById("capture-div");
+
 const outputCanvas = document.getElementById("output-canvas");
 let outputContext = outputCanvas.getContext("2d");
 
@@ -73,3 +77,27 @@ const drawBody = (personSegmentation) => {
   outputContext.imageSmoothingEnabled = true;
   outputContext.putImageData(imageData, 0, 0);
 };
+
+btnCapture.addEventListener("click", () => {
+  let reCaptureButton = document.createElement("button"); // Creating recapture button
+  let canvas = document.createElement("canvas");
+  let context = canvas.getContext("2d");
+  context.drawImage(outputCanvas, 0, 0, 400, 300);
+
+  let data = canvas.toDataURL("image/png");
+  videoGrid.innerHTML = "";
+  btnCapture.remove(); // Removing capture button to place recapture button
+  outputCanvas.innerHTML = `<img src='${data}' width = '400' height = '300' alt='The screen capture will appear here.' />`;
+
+  // HTML for recapture button
+  reCaptureButton.innerHTML = `
+  <button
+    class="fas fa-camera"
+    style="color: black; height: 50px; width: 200px; cursor: pointer"
+    onclick="window.location.reload()"
+  >
+    <span>Recapture</span>
+  </button>`;
+
+  captureDiv.appendChild(reCaptureButton); // Appending recapture button on UI
+});
