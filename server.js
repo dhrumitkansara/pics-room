@@ -18,6 +18,10 @@ app.get("/", (req, res) => {
   res.render("main");
 });
 
+app.get("/facemask", (req, res) => {
+  res.render("facemask");
+});
+
 app.get("/virtual-background", (req, res) => {
   res.render("virtualBackground");
 });
