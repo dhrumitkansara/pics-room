@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>3D Glasses Selfie | Pics Room</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.4.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.123.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.123.0/examples/js/loaders/GLTFLoader.js"></script>
+  </head>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Load FontAwesome -->
+  <script
+    src="https://kit.fontawesome.com/b73d33b5ff.js"
+    crossorigin="anonymous"
+  ></script>
+  <body>
+    <div class="main">
+      <div class="header">
+        <a href="/" class="header__link">
+          <h2>Pics Room</h2>
+        </a>
+      </div>
+      <h1>Take selfie with 3D glasses!!!</h1>
+      <div class="main__videos">
+        <div class="canvas-container">
+          <canvas id="output"></canvas>
+          <canvas id="overlay"></canvas>
+          <video id="webcam" playsinline style="visibility: hidden"></video>
+        </div>
+      </div>
+
+      <div id="capture-div">
+        <button
+          id="btn-capture"
+          class="fas fa-camera"
+          style="color: black; height: 50px; width: 200px; cursor: pointer"
+        >
+          &nbsp;
+          <span>Capture</span>
+        </button>
+      </div>
+      <p>Copyright © 2021 Cactus Creatives. All rights reserved</p>
+    </div>
+    <script src="glasses.js"></script>
+  </body>
+</html>

@@ -52,6 +52,7 @@ btnCapture.addEventListener("click", () => {
     style="color: black; height: 50px; width: 200px; cursor: pointer"
     onclick="window.location.reload()"
   >
+    &nbsp;
     <span>Recapture</span>
   </button>`;
 
