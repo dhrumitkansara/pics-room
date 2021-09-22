@@ -78,6 +78,7 @@ const drawBody = (personSegmentation) => {
   outputContext.putImageData(imageData, 0, 0);
 };
 
+// Capturing selfie on capture button click
 btnCapture.addEventListener("click", () => {
   let reCaptureButton = document.createElement("button"); // Creating recapture button
   let canvas = document.createElement("canvas");

@@ -64,12 +64,13 @@ const connectToNewUser = (userId, stream) => {
 // Adding video stream
 const addVideoStream = (video, stream) => {
   video.srcObject = stream; // Adding stream to video source
-  video.addEventListener("loadedmetadata", () => {
+  video.addEventListener("loadeddata", () => {
     video.play(); // Plays video when video data is loaded
   });
   videoGrid.append(video); // Appending video to video-grid div
 };
 
+// Capturing group selfie on capture button click
 btnCapture.addEventListener("click", () => {
   let reCaptureButton = document.createElement("button"); // Creating recapture button
   let dowloadButton = document.createElement("button"); // Creating download button

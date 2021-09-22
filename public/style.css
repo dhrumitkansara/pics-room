@@ -53,7 +53,8 @@ video {
 }
 
 h1,
-p {
+p,
+strong {
   color: #f3f3f3;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -111,6 +112,13 @@ p {
   left: 0;
   width: 400px;
   height: 300px;
+}
+
+#filter-select {
+  width: 40%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 /* Responsive design stylings */
