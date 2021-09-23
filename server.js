@@ -13,9 +13,13 @@ app.set("view engine", "ejs");
 app.use(express.static("public")); // Setting public URL for script.js file
 app.use("/peerjs", peerServer);
 
-// API endpoints
+// Routes
 app.get("/", (req, res) => {
   res.render("main");
+});
+
+app.get("/select-selfie", (req, res) => {
+  res.render("selfieOptions");
 });
 
 app.get("/filters", (req, res) => {

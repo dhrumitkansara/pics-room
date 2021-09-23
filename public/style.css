@@ -59,24 +59,32 @@ strong {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+h2 {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .card__left {
   padding: 10px;
-  margin-right: 100px;
+  margin-right: 50px;
   width: 350px;
   height: 420px;
   transition: 0.3s;
   background-color: white;
   cursor: pointer;
+  display: grid;
+  place-content: center;
 }
 
 .card__right {
   padding: 10px;
-  margin-right: 100px;
+  margin-right: 50px;
   width: 350px;
   height: 420px;
   transition: 0.3s;
   background-color: white;
   cursor: pointer;
+  display: grid;
+  place-content: center;
 }
 
 .container {
