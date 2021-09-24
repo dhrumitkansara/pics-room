@@ -175,3 +175,5 @@ const trackFace = async () => {
 
   trackFace(); // Calling track face function
 })();
+
+// TODO: Add capture image logic

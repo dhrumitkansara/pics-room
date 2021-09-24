@@ -129,6 +129,23 @@ h2 {
   align-items: center;
 }
 
+.inner-div {
+  width: 1200px;
+  height: 600px;
+  padding: 10px 0 0 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.text-field {
+  width: 400px;
+  height: 30px;
+}
+
 /* Responsive design stylings */
 @media only screen and (max-width: 640px) {
   .main {

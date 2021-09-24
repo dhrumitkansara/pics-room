@@ -7,6 +7,7 @@ myVideo.muted = true;
 const btnCapture = document.getElementById("btn-capture");
 
 let captureDiv = document.getElementById("capture-div");
+let data;
 
 // Creating temp canvas for processing each frame before outputting it
 let canvasTemp = document.createElement("canvas");
@@ -41,7 +42,7 @@ btnCapture.addEventListener("click", () => {
   let context = canvas.getContext("2d");
   context.drawImage(myVideo, 0, 0, 400, 300);
 
-  let data = canvas.toDataURL("image/png");
+  data = canvas.toDataURL("image/png");
   videoGrid.innerHTML = "";
   btnCapture.remove(); // Removing capture button to place recapture button
   videoGrid.innerHTML = `<img src='${data}' width = '400' height = '300' alt='The screen capture will appear here.' />`;
@@ -55,6 +56,13 @@ btnCapture.addEventListener("click", () => {
   >
     &nbsp;
     <span>Recapture</span>
+  </button>
+  <button
+    class="fas fa-check"
+    style="color: black; height: 50px; width: 200px; cursor: pointer"
+    onclick='postCaptureData(data)'>
+    &nbsp;
+    <span>Confirm</span>
   </button>`;
 
   captureDiv.appendChild(reCaptureButton); // Appending recapture button on UI
@@ -71,6 +79,11 @@ btnCapture.addEventListener("click", () => {
 
   // captureDiv.appendChild(dowloadButton); // Appending download button on UI
 });
+
+const postCaptureData = async (data) => {
+  const sendData = { data }; // Creating JSON object to pass it to backend
+  await axios.post("/save-capture-data", sendData); // Sending POST request to backend
+};
 
 // Function to download captured image
 // const downloadImage = () => {

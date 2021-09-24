@@ -10,6 +10,8 @@ const btnCapture = document.getElementById("btn-capture");
 
 let captureDiv = document.getElementById("capture-div");
 
+let data;
+
 // Gets video and audio from browser
 navigator.mediaDevices
   .getUserMedia({
@@ -37,7 +39,7 @@ btnCapture.addEventListener("click", () => {
   let context = canvas.getContext("2d");
   context.drawImage(myVideo, 0, 0, 400, 300);
 
-  let data = canvas.toDataURL("image/png");
+  data = canvas.toDataURL("image/png");
   videoGrid.innerHTML = "";
   filterDiv.innerHTML = "";
   btnCapture.remove(); // Removing capture button to place recapture button
@@ -52,10 +54,22 @@ btnCapture.addEventListener("click", () => {
   >
     &nbsp;
     <span>Recapture</span>
+  </button>
+  <button
+    class="fas fa-check"
+    style="color: black; height: 50px; width: 200px; cursor: pointer"
+    onclick='postCaptureData(data)'>
+    &nbsp;
+    <span>Confirm</span>
   </button>`;
 
   captureDiv.appendChild(reCaptureButton); // Appending recapture button on UI
 });
+
+const postCaptureData = async (data) => {
+  const sendData = { data }; // Creating JSON object to pass it to backend
+  await axios.post("/save-capture-data", sendData); // Sending POST request to backend
+};
 
 // Set Filter method to set filters on webcam
 const setFilter = (property) => {
