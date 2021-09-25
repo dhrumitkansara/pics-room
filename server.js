@@ -25,9 +25,9 @@ app.use((req, res, next) => {
 });
 
 // DB configs
-const connectionUrl =
-  "mongodb+srv://admin:sTBZT8EwBf3HPxeO@cluster0.sgrtp.mongodb.net/picsRoom?retryWrites=true&w=majority";
-mongoose.connect(connectionUrl, {
+// const connectionUrl =
+//   "mongodb+srv://admin:sTBZT8EwBf3HPxeO@cluster0.sgrtp.mongodb.net/picsRoom?retryWrites=true&w=majority";
+mongoose.connect(process.env.CONNECTION_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
