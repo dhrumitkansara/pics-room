@@ -41,7 +41,7 @@ app.get("/signin", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  res.render("admin/adminDash");
+  res.render("admin/dashboard");
 });
 
 // User routes
