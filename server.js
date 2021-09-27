@@ -50,6 +50,18 @@ app.get("/dashboard", (req, res) => {
   res.render("admin/dashboard");
 });
 
+app.get("/profile", (req, res) => {
+  res.render("admin/profile");
+});
+
+app.get("/events", (req, res) => {
+  res.render("admin/events");
+});
+
+app.get("/photos", (req, res) => {
+  res.render("admin/photos");
+});
+
 // User routes
 app.get("/select-selfie", (req, res) => {
   res.render("selfieOptions");
