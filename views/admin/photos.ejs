@@ -223,65 +223,15 @@
                   <h3 class="box-title mb-0">All photos</h3>
                 </div>
                 <div>
+                  <% if(capturedImageData.length === 0) { %>
+                  <p>No images found!</p>
+                  <% } else { capturedImageData.forEach(element => { %>
                   <img
-                    src="admin-assets/plugins/images/users/user.jpg"
+                    src="<%= element.imageUrl %>"
                     class="lg img-circle"
                     alt="img"
                   />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
-                  &nbsp; &nbsp;
-                  <img
-                    src="admin-assets/plugins/images/users/user.jpg"
-                    class="lg img-circle"
-                    alt="img"
-                  />
+                  <% }) } %>
                 </div>
               </div>
             </div>

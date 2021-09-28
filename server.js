@@ -46,11 +46,12 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
+  // Fetching data for admin data
   adminData.find((err, data) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send(err); // Throwing error
     } else {
-      res.render("admin/profile", { profileData: data });
+      res.render("admin/profile", { profileData: data }); // Rendering profile view and passing fetched profile data to the view
     }
   });
 });
@@ -60,7 +61,46 @@ app.get("/events", (req, res) => {
 });
 
 app.get("/photos", (req, res) => {
-  res.render("admin/photos");
+  // Fetching captured images data for photos page
+  captureData.find((err, data) => {
+    if (err) {
+      res.status(500).send(err); // Throwing error
+    } else {
+      res.render("admin/photos", { capturedImageData: data }); // Rendering photos view and passing fetched photos data to the view
+    }
+  });
+});
+
+app.post("/admin-signup", (req, res) => {
+  let userData = {
+    email: "dhrumit@cactuscreatives.com",
+    password: "admin@123",
+  };
+  adminData.create(userData, (err, data) => {
+    if (err) {
+      console.log("Error saving admin data: ", err);
+      res.status(500).send(err);
+    } else {
+      console.log("Admin data saved: ", userData);
+      res.status(201).send(data);
+    }
+  });
+});
+
+// Save captured image endpoint
+app.post("/save-capture-data", (req, res) => {
+  let capturedUrl = { imageUrl: req.body.data }; // Extracting image url from request body
+
+  // Creating document in captured collection
+  captureData.create(capturedUrl, (err, data) => {
+    if (err) {
+      console.log("Error saving captured image data: ", err);
+      res.status(500).send(err);
+    } else {
+      console.log("Image data saved: ", capturedUrl);
+      res.status(201).send(data);
+    }
+  });
 });
 
 // User routes
@@ -98,41 +138,6 @@ app.get("/usie", (req, res) => {
 
 app.get("/:room", (req, res) => {
   res.render("room", { roomId: req.params.room });
-});
-
-// Data endpoints
-
-// Save admin data endpoint
-app.post("/admin-signup", (req, res) => {
-  let userData = {
-    email: "dhrumit@cactuscreatives.com",
-    password: "admin@123",
-  };
-  adminData.create(userData, (err, data) => {
-    if (err) {
-      console.log("Error saving admin data: ", err);
-      res.status(500).send(err);
-    } else {
-      console.log("Admin data saved: ", userData);
-      res.status(201).send(data);
-    }
-  });
-});
-
-// Save captured image endpoint
-app.post("/save-capture-data", (req, res) => {
-  let capturedUrl = { imageUrl: req.body.data }; // Extracting image url from request body
-
-  // Creating document in captured collection
-  captureData.create(capturedUrl, (err, data) => {
-    if (err) {
-      console.log("Error saving captured image data: ", err);
-      res.status(500).send(err);
-    } else {
-      console.log("Image data saved: ", capturedUrl);
-      res.status(201).send(data);
-    }
-  });
 });
 
 // On connection or when visit to site
