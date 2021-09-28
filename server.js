@@ -45,7 +45,13 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  res.render("admin/profile");
+  adminData.find((err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.send(200).render("admin/profile", { profileData: data });
+    }
+  });
 });
 
 app.get("/events", (req, res) => {
