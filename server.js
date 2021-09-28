@@ -49,7 +49,7 @@ app.get("/profile", (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      res.send(200).render("admin/profile", { profileData: data });
+      res.render("admin/profile", { profileData: data }).send(200);
     }
   });
 });
