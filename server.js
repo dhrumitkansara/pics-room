@@ -1,6 +1,7 @@
 // Import statements and app configs
 const express = require("express");
 const app = express();
+require("dotenv").config();
 const port = process.env.PORT || 4000;
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
@@ -49,7 +50,7 @@ app.get("/profile", (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      res.render("admin/profile", { profileData: data }).send(200);
+      res.render("admin/profile", { profileData: data });
     }
   });
 });
