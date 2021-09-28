@@ -13,6 +13,7 @@ const peerServer = ExpressPeerServer(server, { debug: true }); // Creating peer.
 const mongoose = require("mongoose");
 const adminData = require("./models/userModel.js");
 const captureData = require("./models/captureModel.js");
+const eventsData = require("./models/eventsModel.js");
 
 // Middlewares
 app.set("view engine", "ejs");
@@ -46,7 +47,7 @@ app.get("/dashboard", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  // Fetching data for admin data
+  // Fetching admin data
   adminData.find((err, data) => {
     if (err) {
       res.status(500).send(err); // Throwing error
@@ -57,7 +58,31 @@ app.get("/profile", (req, res) => {
 });
 
 app.get("/events", (req, res) => {
-  res.render("admin/events");
+  // Fetching events data
+  eventsData.find((err, data) => {
+    if (err) {
+      console.log("Error fetching events data: ", err);
+      res.status(500).send(err); // Throwing error
+    } else {
+      console.log("Fetched events data: ", data);
+      res.render("admin/events", { eventsData: data }); // Rendering profile view and passing fetched profile data to the view
+    }
+  });
+});
+
+app.post("/events", (req, res) => {
+  let requestEventData = req.body; // Extracting event data from request body and assigning it to local variable
+
+  // Creating data in events collection
+  eventsData.create(requestEventData, (err, data) => {
+    if (err) {
+      console.log("Error saving events data: ", err);
+      res.status(500).send(err);
+    } else {
+      console.log("Events data saved: ", requestEventData);
+      res.redirect("/events");  // Redirecting to events page once data is inserted to the DB
+    }
+  });
 });
 
 app.get("/photos", (req, res) => {

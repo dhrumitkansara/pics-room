@@ -231,7 +231,7 @@
                 </ol>
 
                 <!-- Modal -->
-                <form>
+                <form action="/events" method="POST">
                   <div
                     class="modal fade"
                     id="exampleModalCenter"
@@ -259,20 +259,20 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                          <label for="event-name"><b>Event name:</b></label
+                          <label><b>Event name:</b></label
                           ><br />
                           <input
                             type="text"
-                            id="event-name"
-                            name="event-name"
+                            id="name"
+                            name="name"
                             style="width: 300px"
                           /><br />
-                          <label for="event-date"><b>Event date:</b></label
+                          <label><b>Event date:</b></label
                           ><br />
                           <input
                             type="date"
-                            id="event-date"
-                            name="event-date"
+                            id="date"
+                            name="date"
                             style="width: 300px"
                           />
                         </div>
@@ -321,25 +321,25 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <% if(eventsData.length === 0) { %>
+                      <p>No events found!</p>
+                      <!-- Giving message if no events found -->
+                      <% } else { 
+                        let index = 1;
+                        <!-- Looping through the data -->
+                        eventsData.forEach(element => {
+                          let eventDate = element.date.getDate();
+                          let eventMonth = element.date.getMonth() + 1;
+                          let eventYear = element.date.getFullYear();
+                          let eventFullDate = eventDate + '/' + eventMonth + '/' + eventYear; <!-- Concating date to mm/dd/yyyy format -->
+                      %>
                       <tr>
-                        <td>1</td>
-                        <td class="txt-oflo">Elite admin</td>
-                        <!-- <td>Active</td> -->
-                        <td class="txt-oflo">April 18, 2021</td>
+                        <td><%= index %></td>
+                        <td class="txt-oflo"><%= element.name %></td>
+                        <td class="txt-oflo"><%= eventFullDate %></td>
                         <td><span class="text-info">140</span></td>
                       </tr>
-                      <tr>
-                        <td>2</td>
-                        <td class="txt-oflo">Real Homes WP Theme</td>
-                        <td class="txt-oflo">April 19, 2021</td>
-                        <td><span class="text-info">500</span></td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td class="txt-oflo">Ample Admin</td>
-                        <td class="txt-oflo">April 19, 2021</td>
-                        <td><span class="text-info">600</span></td>
-                      </tr>
+                      <% index++; }) } %>
                     </tbody>
                   </table>
                 </div>
