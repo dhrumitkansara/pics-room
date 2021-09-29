@@ -324,14 +324,15 @@
                       <% if(eventsData.length === 0) { %>
                       <p>No events found!</p>
                       <!-- Giving message if no events found -->
-                      <% } else { 
-                        let index = 1;
-                        <!-- Looping through the data -->
-                        eventsData.forEach(element => {
-                          let eventDate = element.date.getDate();
-                          let eventMonth = element.date.getMonth() + 1;
-                          let eventYear = element.date.getFullYear();
-                          let eventFullDate = eventDate + '/' + eventMonth + '/' + eventYear; <!-- Concating date to mm/dd/yyyy format -->
+                      <% } else { let index = 1;
+                      <!-- Looping through the data -->
+                      eventsData.forEach(element => { let eventDate =
+                      element.date.getDate(); const eventMonth =
+                      element.date.toLocaleString('default', { month: 'long' });
+                      let eventYear = element.date.getFullYear(); let
+                      eventFullDate = eventMonth + ' ' + eventDate + ', ' +
+                      eventYear;
+                      <!-- Concating date to Month Date, Year format -->
                       %>
                       <tr>
                         <td><%= index %></td>
