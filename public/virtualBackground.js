@@ -39,9 +39,9 @@ const removeBackground = async () => {
   // Loading bodyPix model
   const net = await bodyPix.load({
     architecture: "MobileNetV1",
-    outputStride: 8, // Enhanced for better body tracking
+    outputStride: 16, // Reduced output stride to improve performance
     multiplier: 0.75,
-    quantBytes: 1, // Enhanced for better body tracking
+    quantBytes: 1,
   });
 
   // For getting segment of human from stream
