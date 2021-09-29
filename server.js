@@ -43,7 +43,25 @@ app.get("/signin", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  res.render("admin/dashboard");
+  eventsData.find((err, eventsData) => {
+    if (err) {
+      console.log("Error fetching events data: ", err);
+      res.status(500).send(err); // Throwing error
+    } else {
+      console.log("Fetched events data: ", eventsData);
+      captureData.find((err, capturedImageData) => {
+        if (err) {
+          console.log("Error fetching captured image data: ", err);
+          res.status(500).send(err); // Throwing error
+        }
+        console.log("Fetched captured data: ", capturedImageData);
+        res.render("admin/dashboard", {
+          eventsData: eventsData,
+          capturedImageData: capturedImageData,
+        }); // Rendering dashboard view and passing fetched data to the view
+      });
+    }
+  });
 });
 
 app.get("/profile", (req, res) => {
@@ -80,7 +98,7 @@ app.post("/events", (req, res) => {
       res.status(500).send(err);
     } else {
       console.log("Events data saved: ", requestEventData);
-      res.redirect("/events");  // Redirecting to events page once data is inserted to the DB
+      res.redirect("/events"); // Redirecting to events page once data is inserted to the DB
     }
   });
 });
