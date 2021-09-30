@@ -14,10 +14,19 @@
       content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework"
     />
     <meta name="robots" content="noindex,nofollow" />
-    <title>Admin Profile - Pics Room</title>
+    <title>Customize - Pics Room</title>
     <link
       rel="canonical"
       href="https://www.wrappixel.com/templates/ample-admin-lite/"
+    />
+    <!-- Custom CSS -->
+    <link
+      href="admin-assets/plugins/bower_components/chartist/dist/chartist.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="admin-assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
     />
     <!-- Custom CSS -->
     <link href="admin-assets/css/style.min.css" rel="stylesheet" />
@@ -42,12 +51,6 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -212,96 +215,82 @@
         <div class="page-breadcrumb bg-white">
           <div class="row align-items-center">
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-              <h4 class="page-title">Profile page</h4>
+              <h4 class="page-title">Customize</h4>
+            </div>
+            <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+              <div class="d-md-flex">
+                <ol class="breadcrumb ms-auto">
+                  <li>
+                    <a
+                      data-toggle="modal"
+                      data-target="#exampleModalCenter"
+                      class="
+                        btn btn-primary
+                        d-none d-md-block
+                        pull-right
+                        ms-3
+                        hidden-xs hidden-sm
+                        waves-effect waves-light
+                        text-white
+                      "
+                    >
+                      <i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add
+                      items</a
+                    >
+                  </li>
+                </ol>
+              </div>
             </div>
           </div>
           <!-- /.col-lg-12 -->
         </div>
-        <!-- ============================================================== -->
-        <!-- End Bread crumb and right sidebar toggle -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
         <!-- Container fluid  -->
         <!-- ============================================================== -->
         <div class="container-fluid">
           <!-- ============================================================== -->
-          <!-- Start Page Content -->
+          <!-- RECENT Events -->
           <!-- ============================================================== -->
-          <!-- Row -->
           <div class="row">
-            <!-- Column -->
-            <div class="col-lg-4 col-xlg-3 col-md-12">
-              <% profileData.forEach(element => { %>
-
+            <div class="col-md-12 col-lg-12 col-sm-12">
               <div class="white-box">
-                <div class="user-bg">
+                <div class="d-md-flex mb-3">
+                  <h3 class="box-title mb-0">All Frames</h3>
+                </div>
+                <div>
                   <img
-                    width="100%"
-                    alt="user"
-                    src="https://images.unsplash.com/photo-1548041347-390744c58da6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1992&q=80"
+                    src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
+                    alt="img"
+                    style="width: 150px"
                   />
-                  <div class="overlay-box">
-                    <div class="user-content">
-                      <a href="javascript:void(0)"
-                        ><img
-                          src="admin-assets/plugins/images/users/admin.jpg"
-                          class="thumb-lg img-circle"
-                          alt="img"
-                      /></a>
-                      <h4 class="text-white mt-2"><%= element.email %></h4>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
-            <!-- Column -->
-            <!-- Column -->
-            <div class="col-lg-8 col-xlg-9 col-md-12">
-              <div class="card">
-                <div class="card-body">
-                  <div class="form-group mb-4">
-                    <label for="example-email" class="col-md-12 p-0"
-                      >Email</label
-                    >
-                    <div class="col-md-12 border-bottom p-0">
-                      <input
-                        type="email"
-                        placeholder="<%= element.email %>"
-                        disabled
-                        class="form-control p-0 border-0"
-                        name="example-email"
-                        id="example-email"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group mb-4">
-                    <label class="col-md-12 p-0">Password</label>
-                    <div class="col-md-12 border-bottom p-0">
-                      <input
-                        type="password"
-                        value="<%= element.password %>"
-                        class="form-control p-0 border-0"
-                        disabled
-                      />
-                    </div>
-                  </div>
+
+            <div class="col-md-12 col-lg-12 col-sm-12">
+              <div class="white-box">
+                <div class="d-md-flex mb-3">
+                  <h3 class="box-title mb-0">All Props</h3>
+                </div>
+                <div>
+                  <img
+                    src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
+                    alt="img"
+                    style="width: 150px; margin-right: 20px"
+                  />
+                  <img
+                    src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
+                    alt="img"
+                    style="width: 150px; margin-right: 20px"
+                  />
+                  <img
+                    src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
+                    alt="img"
+                    style="width: 150px; margin-right: 20px"
+                  />
                 </div>
               </div>
             </div>
-            <!-- Column -->
           </div>
-          <!-- Row -->
-          <!-- ============================================================== -->
-          <!-- End PAge Content -->
-          <!-- ============================================================== -->
-          <!-- ============================================================== -->
-          <!-- Right sidebar -->
-          <!-- ============================================================== -->
-          <!-- .right-sidebar -->
-          <!-- ============================================================== -->
-          <!-- End Right sidebar -->
-          <!-- ============================================================== -->
-          <% }) %>
         </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
@@ -330,11 +319,17 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="admin-assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="admin-assets/js/app-style-switcher.js"></script>
+    <script src="admin-assets/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->
     <script src="admin-assets/js/waves.js"></script>
     <!--Menu sidebar -->
     <script src="admin-assets/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="admin-assets/js/custom.js"></script>
+    <!--This page JavaScript -->
+    <!--chartis chart-->
+    <script src="admin-assets/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="admin-assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="admin-assets/js/pages/dashboards/dashboard1.js"></script>
   </body>
 </html>

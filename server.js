@@ -19,7 +19,7 @@ const eventsData = require("./models/eventsModel.js");
 app.set("view engine", "ejs");
 app.use(express.static("public")); // Setting public URL for script.js file
 app.use("/peerjs", peerServer);
-app.use(express.json());
+app.use(express.json()); // TODO: Set limit to prevent getting Payload too large error (413)
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "*");
@@ -112,6 +112,10 @@ app.get("/photos", (req, res) => {
       res.render("admin/photos", { capturedImageData: data }); // Rendering photos view and passing fetched photos data to the view
     }
   });
+});
+
+app.get("/customize", (req, res) => {
+  res.render("admin/customize");
 });
 
 app.post("/admin-signup", (req, res) => {
