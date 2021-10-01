@@ -5,7 +5,6 @@ require("dotenv").config();
 const port = process.env.PORT || 4000;
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
-const { v4: uuidv4 } = require("uuid");
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, { debug: true }); // Creating peer.js server
 
