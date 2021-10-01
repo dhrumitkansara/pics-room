@@ -39,7 +39,7 @@ mongoose.connect(process.env.CONNECTION_URL, {
   useUnifiedTopology: true,
 });
 
-// Routes
+// Default route
 app.get("/", (req, res) => {
   res.render("main");
 });

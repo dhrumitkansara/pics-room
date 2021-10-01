@@ -94,7 +94,7 @@ exports.create_event = (req, res) => {
       res.status(500).send(err);
     } else {
       console.log("Events data saved: ", requestEventData);
-      res.redirect("/events"); // Redirecting to events page once data is inserted to the DB
+      res.redirect("events"); // Redirecting to events page once data is inserted to the DB
     }
   });
 };
