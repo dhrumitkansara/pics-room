@@ -1,6 +1,6 @@
 // Controller functions
 exports.select_selfie = (req, res) => {
-  res.render("selfieOptions");
+  res.render("selfie-options");
 };
 
 exports.filter = (req, res) => {
@@ -12,7 +12,7 @@ exports.glasses = (req, res) => {
 };
 
 exports.virtual_background = (req, res) => {
-  res.render("virtualBackground");
+  res.render("virtual-background");
 };
 
 exports.selfie = (req, res) => {

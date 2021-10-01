@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import controller
-const adminController = require("../controllers/admin");
+const adminController = require("../controllers/admin-controller");
 
 // GET Endpoints
 router.get("/signin", adminController.signin);

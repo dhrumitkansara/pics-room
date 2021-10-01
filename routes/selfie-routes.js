@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import controller
-const selfieController = require("../controllers/selfie");
+const selfieController = require("../controllers/selfie-controller");
 
 // Endpoints
 router.get("/select-selfie", selfieController.select_selfie);

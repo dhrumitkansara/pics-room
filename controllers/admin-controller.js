@@ -1,34 +1,38 @@
 // Models import
-const adminData = require("../models/userModel");
-const captureData = require("../models/captureModel");
-const eventsData = require("../models/eventsModel");
-const framesData = require("../models/framesModel");
+const adminData = require("../models/user-model");
+const captureData = require("../models/capture-model");
+const eventsData = require("../models/events-model");
+const framesData = require("../models/frames-model");
 
 // Controller functions
 exports.signin = (req, res) => {
-  res.render("admin/adminSignin");
+  res.render("admin/admin-sign-in");
 };
 
 exports.dashboard = (req, res) => {
-  eventsData.find((err, eventsData) => {
-    if (err) {
-      console.log("Error fetching events data: ", err);
-      res.status(500).send(err); // Throwing error
-    } else {
-      console.log("Fetched events data: ", eventsData);
-      captureData.find((err, capturedImageData) => {
-        if (err) {
-          console.log("Error fetching captured image data: ", err);
-          res.status(500).send(err); // Throwing error
-        }
-        console.log("Fetched captured data: ", capturedImageData);
-        res.render("admin/dashboard", {
-          eventsData: eventsData,
-          capturedImageData: capturedImageData,
-        }); // Rendering dashboard view and passing fetched data to the view
-      });
-    }
-  });
+  eventsData
+    .find((err, eventsData) => {
+      if (err) {
+        console.log("Error fetching events data: ", err);
+        res.status(500).send(err); // Throwing error
+      } else {
+        console.log("Fetched events data: ", eventsData);
+        captureData
+          .find((err, capturedImageData) => {
+            if (err) {
+              console.log("Error fetching captured image data: ", err);
+              res.status(500).send(err); // Throwing error
+            }
+            console.log("Fetched captured data: ", capturedImageData);
+            res.render("admin/dashboard", {
+              eventsData: eventsData,
+              capturedImageData: capturedImageData,
+            }); // Rendering dashboard view and passing fetched data to the view
+          })
+          .sort({ createdAt: -1 });
+      }
+    })
+    .sort({ createdAt: -1 });
 };
 
 exports.profile = (req, res) => {

@@ -10,12 +10,12 @@ const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, { debug: true }); // Creating peer.js server
 
 // Routes import
-let selfieRoutes = require("./routes/selfie");
-let adminRoutes = require("./routes/admin");
+let selfieRoutes = require("./routes/selfie-routes");
+let adminRoutes = require("./routes/admin-routes");
 
 // DB imports
 const mongoose = require("mongoose");
-const captureData = require("./models/captureModel");
+const captureData = require("./models/capture-model");
 
 // Middlewares
 app.set("view engine", "ejs");
