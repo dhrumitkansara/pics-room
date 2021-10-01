@@ -2,8 +2,11 @@
 const mongoose = require("mongoose");
 
 // Defining schema for captured collection
-const captureImageSchema = mongoose.Schema({
-  imageUrl: String,
-});
+const captureImageSchema = mongoose.Schema(
+  {
+    imageUrl: String,
+  },
+  { timestamps: {} }
+);
 
 module.exports = mongoose.model("captured", captureImageSchema); // Exporting model with collection name captured

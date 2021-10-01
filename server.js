@@ -20,6 +20,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public")); // Setting public URL for script.js file
 app.use("/peerjs", peerServer);
 app.use(express.json()); // TODO: Set limit to prevent getting Payload too large error (413)
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "*");
@@ -77,15 +78,17 @@ app.get("/profile", (req, res) => {
 
 app.get("/events", (req, res) => {
   // Fetching events data
-  eventsData.find((err, data) => {
-    if (err) {
-      console.log("Error fetching events data: ", err);
-      res.status(500).send(err); // Throwing error
-    } else {
-      console.log("Fetched events data: ", data);
-      res.render("admin/events", { eventsData: data }); // Rendering profile view and passing fetched profile data to the view
-    }
-  });
+  eventsData
+    .find((err, data) => {
+      if (err) {
+        console.log("Error fetching events data: ", err);
+        res.status(500).send(err); // Throwing error
+      } else {
+        console.log("Fetched events data: ", data);
+        res.render("admin/events", { eventsData: data }); // Rendering profile view and passing fetched profile data to the view
+      }
+    })
+    .sort({ createdAt: -1 });
 });
 
 app.post("/events", (req, res) => {
@@ -105,13 +108,15 @@ app.post("/events", (req, res) => {
 
 app.get("/photos", (req, res) => {
   // Fetching captured images data for photos page
-  captureData.find((err, data) => {
-    if (err) {
-      res.status(500).send(err); // Throwing error
-    } else {
-      res.render("admin/photos", { capturedImageData: data }); // Rendering photos view and passing fetched photos data to the view
-    }
-  });
+  captureData
+    .find((err, data) => {
+      if (err) {
+        res.status(500).send(err); // Throwing error
+      } else {
+        res.render("admin/photos", { capturedImageData: data }); // Rendering photos view and passing fetched photos data to the view
+      }
+    })
+    .sort({ createdAt: -1 });
 });
 
 app.get("/customize", (req, res) => {
