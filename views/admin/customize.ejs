@@ -21,15 +21,15 @@
     />
     <!-- Custom CSS -->
     <link
-      href="admin-assets/plugins/bower_components/chartist/dist/chartist.min.css"
+      href="../admin-assets/plugins/bower_components/chartist/dist/chartist.min.css"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
-      href="admin-assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
+      href="../admin-assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css"
     />
     <!-- Custom CSS -->
-    <link href="admin-assets/css/style.min.css" rel="stylesheet" />
+    <link href="../admin-assets/css/style.min.css" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -51,6 +51,9 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Load axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
 
   <body>
@@ -84,7 +87,7 @@
             <!-- ============================================================== -->
             <!-- Logo -->
             <!-- ============================================================== -->
-            <a class="navbar-brand" href="/dashboard">
+            <a class="navbar-brand" href="/admin/dashboard">
               <!-- Logo text -->
               <b class="logo-text" style="color: black"> Pics Room </b>
             </a>
@@ -149,7 +152,7 @@
               <li class="sidebar-item pt-2">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="/dashboard"
+                  href="/admin/dashboard"
                   aria-expanded="false"
                 >
                   <i class="far fa-clock" aria-hidden="true"></i>
@@ -159,7 +162,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="/profile"
+                  href="/admin/profile"
                   aria-expanded="false"
                 >
                   <i class="fa fa-user" aria-hidden="true"></i>
@@ -169,7 +172,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="/events"
+                  href="/admin/events"
                   aria-expanded="false"
                 >
                   <i class="fa fa-table" aria-hidden="true"></i>
@@ -179,7 +182,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="/photos"
+                  href="/admin/photos"
                   aria-expanded="false"
                 >
                   <i class="fa fa-images" aria-hidden="true"></i>
@@ -189,7 +192,7 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="/customize"
+                  href="/admin/customize"
                   aria-expanded="false"
                 >
                   <i class="fas fa-wrench" aria-hidden="true"></i>
@@ -235,10 +238,63 @@
                       "
                     >
                       <i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add
-                      items</a
+                      frame</a
                     >
                   </li>
                 </ol>
+
+                <!-- Modal -->
+                <div
+                  class="modal fade"
+                  id="exampleModalCenter"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true"
+                >
+                  <div
+                    class="modal-dialog modal-dialog-centered"
+                    role="document"
+                  >
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                          Add frame
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <label><b>Upload frame:</b></label
+                        ><br />
+                        <input
+                          id="inputFileToLoad"
+                          type="file"
+                          onchange="encodeImageFileAsURL();"
+                        />
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button id="submitBtn" class="btn btn-primary">
+                          <i class="fa fa-plus" aria-hidden="true"></i> &nbsp;
+                          Add frame
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -257,36 +313,16 @@
                   <h3 class="box-title mb-0">All Frames</h3>
                 </div>
                 <div>
+                  <% if(framesData.length === 0) { %>
+                  <p>No frames found!</p>
+                  <% } else { framesData.forEach(element => { %>
                   <img
-                    src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
-                    alt="img"
-                    style="width: 150px"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12 col-lg-12 col-sm-12">
-              <div class="white-box">
-                <div class="d-md-flex mb-3">
-                  <h3 class="box-title mb-0">All Props</h3>
-                </div>
-                <div>
-                  <img
-                    src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
+                    src="<%= element.frameUrl %>"
+                    class="lg img-circle"
                     alt="img"
                     style="width: 150px; margin-right: 20px"
                   />
-                  <img
-                    src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
-                    alt="img"
-                    style="width: 150px; margin-right: 20px"
-                  />
-                  <img
-                    src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
-                    alt="img"
-                    style="width: 150px; margin-right: 20px"
-                  />
+                  <% }) } %>
                 </div>
               </div>
             </div>
@@ -315,21 +351,21 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="admin-assets/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../admin-assets/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="admin-assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="admin-assets/js/app-style-switcher.js"></script>
-    <script src="admin-assets/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="../admin-assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../admin-assets/js/app-style-switcher.js"></script>
+    <script src="../admin-assets/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!--Wave Effects -->
-    <script src="admin-assets/js/waves.js"></script>
+    <script src="../admin-assets/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="admin-assets/js/sidebarmenu.js"></script>
+    <script src="../admin-assets/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-    <script src="admin-assets/js/custom.js"></script>
+    <script src="../admin-assets/js/custom.js"></script>
     <!--This page JavaScript -->
     <!--chartis chart-->
-    <script src="admin-assets/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="admin-assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="admin-assets/js/pages/dashboards/dashboard1.js"></script>
+    <script src="../admin-assets/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="../admin-assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../customize.js"></script>
   </body>
 </html>

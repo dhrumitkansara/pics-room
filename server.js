@@ -9,11 +9,13 @@ const { v4: uuidv4 } = require("uuid");
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, { debug: true }); // Creating peer.js server
 
+// Routes import
+let selfieRoutes = require("./routes/selfie");
+let adminRoutes = require("./routes/admin");
+
 // DB imports
 const mongoose = require("mongoose");
-const adminData = require("./models/userModel.js");
-const captureData = require("./models/captureModel.js");
-const eventsData = require("./models/eventsModel.js");
+const captureData = require("./models/captureModel");
 
 // Middlewares
 app.set("view engine", "ejs");
@@ -27,6 +29,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// Routes middleware
+app.use("/selfie", selfieRoutes);
+app.use("/admin", adminRoutes);
+
 // DB configs
 mongoose.connect(process.env.CONNECTION_URL, {
   useNewUrlParser: true,
@@ -36,107 +42,6 @@ mongoose.connect(process.env.CONNECTION_URL, {
 // Routes
 app.get("/", (req, res) => {
   res.render("main");
-});
-
-// Admin routes
-app.get("/signin", (req, res) => {
-  res.render("admin/adminSignin");
-});
-
-app.get("/dashboard", (req, res) => {
-  eventsData.find((err, eventsData) => {
-    if (err) {
-      console.log("Error fetching events data: ", err);
-      res.status(500).send(err); // Throwing error
-    } else {
-      console.log("Fetched events data: ", eventsData);
-      captureData.find((err, capturedImageData) => {
-        if (err) {
-          console.log("Error fetching captured image data: ", err);
-          res.status(500).send(err); // Throwing error
-        }
-        console.log("Fetched captured data: ", capturedImageData);
-        res.render("admin/dashboard", {
-          eventsData: eventsData,
-          capturedImageData: capturedImageData,
-        }); // Rendering dashboard view and passing fetched data to the view
-      });
-    }
-  });
-});
-
-app.get("/profile", (req, res) => {
-  // Fetching admin data
-  adminData.find((err, data) => {
-    if (err) {
-      res.status(500).send(err); // Throwing error
-    } else {
-      res.render("admin/profile", { profileData: data }); // Rendering profile view and passing fetched profile data to the view
-    }
-  });
-});
-
-app.get("/events", (req, res) => {
-  // Fetching events data
-  eventsData
-    .find((err, data) => {
-      if (err) {
-        console.log("Error fetching events data: ", err);
-        res.status(500).send(err); // Throwing error
-      } else {
-        console.log("Fetched events data: ", data);
-        res.render("admin/events", { eventsData: data }); // Rendering profile view and passing fetched profile data to the view
-      }
-    })
-    .sort({ createdAt: -1 });
-});
-
-app.post("/events", (req, res) => {
-  let requestEventData = req.body; // Extracting event data from request body and assigning it to local variable
-
-  // Creating data in events collection
-  eventsData.create(requestEventData, (err, data) => {
-    if (err) {
-      console.log("Error saving events data: ", err);
-      res.status(500).send(err);
-    } else {
-      console.log("Events data saved: ", requestEventData);
-      res.redirect("/events"); // Redirecting to events page once data is inserted to the DB
-    }
-  });
-});
-
-app.get("/photos", (req, res) => {
-  // Fetching captured images data for photos page
-  captureData
-    .find((err, data) => {
-      if (err) {
-        res.status(500).send(err); // Throwing error
-      } else {
-        res.render("admin/photos", { capturedImageData: data }); // Rendering photos view and passing fetched photos data to the view
-      }
-    })
-    .sort({ createdAt: -1 });
-});
-
-app.get("/customize", (req, res) => {
-  res.render("admin/customize");
-});
-
-app.post("/admin-signup", (req, res) => {
-  let userData = {
-    email: "dhrumit@cactuscreatives.com",
-    password: "admin@123",
-  };
-  adminData.create(userData, (err, data) => {
-    if (err) {
-      console.log("Error saving admin data: ", err);
-      res.status(500).send(err);
-    } else {
-      console.log("Admin data saved: ", userData);
-      res.status(201).send(data);
-    }
-  });
 });
 
 // Save captured image endpoint
@@ -153,43 +58,6 @@ app.post("/save-capture-data", (req, res) => {
       res.status(201).send(data);
     }
   });
-});
-
-// User routes
-app.get("/select-selfie", (req, res) => {
-  res.render("selfieOptions");
-});
-
-app.get("/filters", (req, res) => {
-  res.render("filters");
-});
-
-app.get("/glasses", (req, res) => {
-  res.render("glasses");
-});
-
-app.get("/facemask", (req, res) => {
-  res.render("facemask");
-});
-
-app.get("/virtual-background", (req, res) => {
-  res.render("virtualBackground");
-});
-
-app.get("/selfie", (req, res) => {
-  res.render("selfie");
-});
-
-app.get("/group-selfie", (req, res) => {
-  res.render("group");
-});
-
-app.get("/usie", (req, res) => {
-  res.redirect(`/${uuidv4()}`); // Generates UUID on default route and redirects to /:room
-});
-
-app.get("/:room", (req, res) => {
-  res.render("room", { roomId: req.params.room });
 });
 
 // On connection or when visit to site
