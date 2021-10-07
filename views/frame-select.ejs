@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selfie - Pics Room</title>
+
+    <!-- Load FontAwesome -->
+    <script
+      src="https://kit.fontawesome.com/b73d33b5ff.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="../style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+
+    <!-- Load axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="header">
+        <a href="/" class="header__link">
+          <h2>Pics Room</h2>
+        </a>
+      </div>
+      <h1>Select the frame!!!</h1>
+
+      <div class="main__videos">
+        <div>
+          <% if(framesData.length === 0) { %>
+          <p>No frames found!</p>
+          <% } else { framesData.forEach(element => { %>
+          <img
+            src="<%= element.frameUrl %>"
+            class="lg img-circle"
+            alt="img"
+            style="width: 150px; margin-right: 20px; cursor: pointer"
+            onclick="frameSelected('<%= element.frameUrl %>')"
+          />
+          <% }) } %>
+        </div>
+      </div>
+
+      <div id="capture-div">
+        <button
+          id="btn-capture"
+          class="fas fa-forward"
+          style="color: black; height: 50px; width: 200px; cursor: pointer"
+        >
+          &nbsp;
+          <span>Go ahead</span>
+        </button>
+      </div>
+
+      <p>Copyright &copy; 2021 Cactus Creatives. All rights reserved</p>
+    </div>
+    <script src="../frame-select.js"></script>
+  </body>
+</html>

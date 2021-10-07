@@ -20,6 +20,20 @@ exports.virtual_background = (req, res) => {
   res.render("virtual-background");
 };
 
+exports.frame_select = (req, res) => {
+  framesData
+    .find((err, data) => {
+      if (err) {
+        console.log("Error fetching frames data: ", err);
+        res.status(500).send(err); // Throwing error
+      } else {
+        console.log("Fetched frames data: ", data);
+        res.render("frame-select", { framesData: data }); // Rendering profile view and passing fetched profile data to the view
+      }
+    })
+    .sort({ createdAt: -1 });
+};
+
 exports.selfie = (req, res) => {
   // res.render("selfie");
   framesData
