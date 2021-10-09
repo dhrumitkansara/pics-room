@@ -40,6 +40,20 @@
         <!-- <canvas id="output-canvas" width="400" height="300"></canvas> -->
       </div>
 
+      <div id="filter-select">
+        <strong>Frames:</strong> &nbsp; &nbsp; <% if(framesData.length === 0) {
+        %>
+        <p>No frames found!</p>
+        <% } else { framesData.forEach(element => { %>
+        <img
+          src="<%= element.frameUrl %>"
+          class="lg img-circle"
+          alt="img"
+          style="width: 150px; margin-right: 20px"
+        />
+        <% }) } %>
+      </div>
+
       <div id="capture-div">
         <button
           id="btn-capture"

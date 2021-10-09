@@ -28,7 +28,7 @@ exports.frame_select = (req, res) => {
         res.status(500).send(err); // Throwing error
       } else {
         console.log("Fetched frames data: ", data);
-        res.render("frame-select", { framesData: data }); // Rendering profile view and passing fetched profile data to the view
+        res.render("frame-select", { framesData: data }); // Rendering frame select and passing fetched data to the view
       }
     })
     .sort({ createdAt: -1 });
@@ -43,7 +43,7 @@ exports.selfie = (req, res) => {
         res.status(500).send(err); // Throwing error
       } else {
         console.log("Fetched frames data: ", data);
-        res.render("selfie", { framesData: data }); // Rendering profile view and passing fetched profile data to the view
+        res.render("selfie", { framesData: data }); // Rendering selfie view and passing fetched data to the view
       }
     })
     .sort({ createdAt: -1 });
