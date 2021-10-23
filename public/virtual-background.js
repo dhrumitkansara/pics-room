@@ -112,6 +112,11 @@ btnCapture.addEventListener("click", () => {
   captureDiv.appendChild(reCaptureButton); // Appending recapture button on UI
 });
 
+// setFilter method to set filters on video
+const setFilter = (property) => {
+  outputCanvas.style.filter = property;
+};
+
 const postCaptureData = async (data) => {
   const sendData = { data }; // Creating JSON object to pass it to backend
   await axios.post("/save-capture-data", sendData); // Sending POST request to backend

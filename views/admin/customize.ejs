@@ -271,13 +271,34 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <label><b>Upload frame:</b></label
+                        <label
+                          ><b
+                            >Upload frame<sup style="color: red">*</sup></b
+                          ></label
                         ><br />
                         <input
                           id="inputFileToLoad"
                           type="file"
                           onchange="encodeImageFileAsURL();"
                         />
+                        <div class="autocomplete" style="width: 300px">
+                          <label
+                            ><b
+                              >Select event<sup style="color: red">*</sup></b
+                            ></label
+                          ><br />
+                          <input list="events" placeholder="Search events..." />
+
+                          <datalist id="events">
+                            <% if(eventsData.length === 0) { %>
+                            <option>No events found</option>
+                            <% } else { eventsData.forEach(element => { %>
+                            <option value="<%= element.name %>">
+                              <%= element.name %>
+                            </option>
+                            <% }) } %>
+                          </datalist>
+                        </div>
                       </div>
                       <div class="modal-footer">
                         <button

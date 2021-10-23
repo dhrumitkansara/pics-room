@@ -82,7 +82,19 @@ exports.customize = (req, res) => {
         res.status(500).send(err); // Throwing error
       } else {
         console.log("Fetched frames data: ", data);
-        res.render("admin/customize", { framesData: data }); // Rendering profile view and passing fetched profile data to the view
+        eventsData.find((err, eventsData) => {
+          if (err) {
+            console.log("Error fetching events data: ", err);
+            res.status(500).send(err); // Throwing error
+          } else {
+            console.log("Fetched events data: ", data);
+
+            res.render("admin/customize", {
+              framesData: data,
+              eventsData: eventsData,
+            }); // Rendering profile view and passing fetched profile data to the view
+          }
+        });
       }
     })
     .sort({ createdAt: -1 });

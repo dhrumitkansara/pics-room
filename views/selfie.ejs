@@ -22,6 +22,12 @@
   <body>
     <div class="main">
       <div class="header">
+        <i
+          style="font-size: x-large"
+          class="fas fa-chevron-left"
+          onclick="window.history.back()"
+        ></i>
+        &nbsp; &nbsp; &nbsp; &nbsp;
         <a href="/" class="header__link">
           <h2>Pics Room</h2>
         </a>
@@ -33,6 +39,7 @@
         <img
           src="https://cdn.pixabay.com/photo/2017/07/09/10/11/frame-2486548_1280.png"
           alt="Frame"
+          id="frame-image"
           width="450"
           height="320"
           style="position: absolute; z-index: 9999; margin-top: 5px"
@@ -50,8 +57,62 @@
           class="lg img-circle"
           alt="img"
           style="width: 150px; margin-right: 20px"
+          onclick="setFrame('<%= element.frameUrl %>')"
         />
         <% }) } %>
+      </div>
+
+      <div style="display: flex; align-items: center">
+        <p>Enable 3D glasses:</p>
+        &nbsp; &nbsp; &nbsp;
+        <label class="switch">
+          <input type="checkbox" onclick="toggleChanged(event)" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div id="filter-select">
+        <strong>Filters:</strong>
+        <img
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/rhododendron-1508785044.jpg?crop=1.00xw:0.667xh;0,0.0386xh&resize=480:*"
+          alt="Filter image"
+          width="100"
+          height="100"
+          style="filter: none; cursor: pointer"
+          onclick="setFilter('none')"
+        />
+        <img
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/rhododendron-1508785044.jpg?crop=1.00xw:0.667xh;0,0.0386xh&resize=480:*"
+          alt="Filter image"
+          width="100"
+          height="100"
+          style="filter: sepia(1); cursor: pointer"
+          onclick="setFilter('sepia(1)')"
+        />
+        <img
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/rhododendron-1508785044.jpg?crop=1.00xw:0.667xh;0,0.0386xh&resize=480:*"
+          alt="Filter image"
+          width="100"
+          height="100"
+          style="filter: grayscale(1); cursor: pointer"
+          onclick="setFilter('grayscale(1)')"
+        />
+        <img
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/rhododendron-1508785044.jpg?crop=1.00xw:0.667xh;0,0.0386xh&resize=480:*"
+          alt="Filter image"
+          width="100"
+          height="100"
+          style="filter: hue-rotate(3.142rad); cursor: pointer"
+          onclick="setFilter('hue-rotate(3.142rad)')"
+        />
+        <img
+          src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/rhododendron-1508785044.jpg?crop=1.00xw:0.667xh;0,0.0386xh&resize=480:*"
+          alt="Filter image"
+          width="100"
+          height="100"
+          style="filter: invert(1); cursor: pointer"
+          onclick="setFilter('invert(1)')"
+        />
       </div>
 
       <div id="capture-div">

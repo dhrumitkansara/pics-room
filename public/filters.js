@@ -71,7 +71,7 @@ const postCaptureData = async (data) => {
   await axios.post("/save-capture-data", sendData); // Sending POST request to backend
 };
 
-// Set Filter method to set filters on webcam
+// setFilter method to set filters on video
 const setFilter = (property) => {
   videoGrid.style.filter = property;
 };
