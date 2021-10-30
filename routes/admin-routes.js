@@ -15,5 +15,6 @@ router.get("/customize", adminController.customize);
 // POST Endpoint
 router.post("/events", adminController.create_event);
 router.post("/add-frame", adminController.add_frame);
+router.post("/update-frame", adminController.update_frame);
 
 module.exports = router;

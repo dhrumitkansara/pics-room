@@ -117,13 +117,65 @@ exports.create_event = (req, res) => {
 
 exports.add_frame = (req, res) => {
   let requestFrameData = req.body; // Extracting frame data from request body and assigning it to local variable
-  framesData.create(requestFrameData, (err, data) => {
+  eventsData.findOne({ name: requestFrameData.event }, (err, data) => {
     if (err) {
-      console.log("Error saving frame data: ", err);
-      res.status(500).send(err);
+      console.log("Error fetching events data: ", err);
+      res.status(500).send(err); // Throwing error
     } else {
-      console.log("Frame data saved: ", requestFrameData);
-      res.status(201).send(data);
+      const framePostData = {
+        frameUrl: requestFrameData.frameUrl,
+        event: { _id: data._id, _ref: "events" },
+        status: requestFrameData.status,
+      };
+      framesData.create(framePostData, (err, data) => {
+        if (err) {
+          console.log("Error saving frame data: ", err);
+          res.status(500).send(err);
+        } else {
+          console.log("Frame data saved: ", requestFrameData);
+          res.status(201).send(data);
+        }
+      });
+    }
+  });
+};
+
+exports.update_frame = (req, res) => {
+  let requestFrameData = req.body; // Extracting frame data from request body and assigning it to local variable
+  framesData.findOne({ frameUrl: requestFrameData.frameUrl }, (err, data) => {
+    if (err) {
+      console.log("Error fetching events data: ", err);
+      res.status(500).send(err); // Throwing error
+    } else {
+      if (data.status === "inactive") {
+        framesData.findByIdAndUpdate(
+          { _id: data._id },
+          { status: "active" },
+          (err, responseData) => {
+            if (err) {
+              console.log("Error updating frame data: ", err);
+              res.status(500).send(err);
+            } else {
+              console.log("Frame data updated: ", responseData);
+              res.status(201).send(responseData);
+            }
+          }
+        );
+      } else {
+        framesData.findByIdAndUpdate(
+          { _id: data._id },
+          { status: "inactive" },
+          (err, responseData) => {
+            if (err) {
+              console.log("Error updating frame data: ", err);
+              res.status(500).send(err);
+            } else {
+              console.log("Frame data updated: ", responseData);
+              res.status(201).send(responseData);
+            }
+          }
+        );
+      }
     }
   });
 };

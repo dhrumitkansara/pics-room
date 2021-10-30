@@ -282,12 +282,17 @@
                           onchange="encodeImageFileAsURL();"
                         />
                         <div class="autocomplete" style="width: 300px">
+                          <br />
                           <label
                             ><b
                               >Select event<sup style="color: red">*</sup></b
                             ></label
                           ><br />
-                          <input list="events" placeholder="Search events..." />
+                          <input
+                            name="events"
+                            list="events"
+                            placeholder="Search events..."
+                          />
 
                           <datalist id="events">
                             <% if(eventsData.length === 0) { %>
@@ -298,6 +303,28 @@
                             </option>
                             <% }) } %>
                           </datalist>
+                        </div>
+                        <div class="status">
+                          <br />
+                          <label
+                            ><b>Status<sup style="color: red">*</sup></b></label
+                          ><br />
+                          <input
+                            type="radio"
+                            id="active"
+                            name="status"
+                            value="active"
+                            checked
+                          />
+                            <label for="active">Active</label>
+                           
+                          <input
+                            type="radio"
+                            id="inactive"
+                            name="status"
+                            value="inactive"
+                          />
+                            <label for="inactive">Inactive</label>
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -342,6 +369,7 @@
                     class="lg img-circle"
                     alt="img"
                     style="width: 150px; margin-right: 20px"
+                    onclick="setInactive('<%= element.frameUrl %>')"
                   />
                   <% }) } %>
                 </div>

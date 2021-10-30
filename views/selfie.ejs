@@ -51,7 +51,8 @@
         <strong>Frames:</strong> &nbsp; &nbsp; <% if(framesData.length === 0) {
         %>
         <p>No frames found!</p>
-        <% } else { framesData.forEach(element => { %>
+        <% } else { framesData.forEach(element => { if(element.status ===
+        'active') { %>
         <img
           src="<%= element.frameUrl %>"
           class="lg img-circle"
@@ -59,7 +60,7 @@
           style="width: 150px; margin-right: 20px"
           onclick="setFrame('<%= element.frameUrl %>')"
         />
-        <% }) } %>
+        <% } }) } %>
       </div>
 
       <div style="display: flex; align-items: center">

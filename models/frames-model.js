@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const frameSchema = mongoose.Schema(
   {
     frameUrl: String,
+    event: Object,
+    status: String,
   },
   { timestamps: {} }
 );

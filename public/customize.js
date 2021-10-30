@@ -20,7 +20,16 @@ submitBtn.addEventListener("click", async () => {
   if (srcData === undefined) {
     alert("src data is empty");
   }
-  const frameObjectData = { frameUrl: srcData };
+
+  let status = document.querySelector("input[name = status]:checked").value;
+  let selectedEvent = $('[name="events"]').val();
+
+  const frameObjectData = { frameUrl: srcData, event: selectedEvent, status };
   await axios.post("/admin/add-frame", frameObjectData); // Sending POST request to backend
   window.location.reload();
 });
+
+const setInactive = async (frameUrl) => {
+  const frameObjectData = { frameUrl };
+  await axios.post("/admin//update-frame", frameObjectData);
+};
