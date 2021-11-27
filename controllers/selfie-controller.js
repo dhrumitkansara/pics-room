@@ -13,7 +13,18 @@ exports.filter = (req, res) => {
 };
 
 exports.glasses = (req, res) => {
-  res.render("glasses");
+  // res.render("glasses");
+  framesData
+    .find((err, data) => {
+      if (err) {
+        console.log("Error fetching frames data: ", err);
+        res.status(500).send(err); // Throwing error
+      } else {
+        console.log("Fetched frames data: ", data);
+        res.render("glasses", { framesData: data }); // Rendering selfie view and passing fetched data to the view
+      }
+    })
+    .sort({ createdAt: -1 });
 };
 
 exports.virtual_background = (req, res) => {

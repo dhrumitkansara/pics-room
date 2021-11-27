@@ -7,6 +7,8 @@ let scene = null;
 let camera = null;
 let glasses = null;
 
+let frameImage = document.getElementById("frame-image");
+
 // Webcam setup
 const setupWebcam = async () => {
   return new Promise((resolve, reject) => {
@@ -177,3 +179,13 @@ const trackFace = async () => {
 })();
 
 // TODO: Add capture image logic
+
+// setFrame method to set filters on video
+const setFrame = (frameUrl) => {
+  frameImage.src = frameUrl;
+};
+
+// setFilter method to set filters on video
+const setFilter = (property) => {
+  document.getElementById("canvas-container").style.filter = property; // Setting filter to video
+};
