@@ -51,6 +51,14 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Loading lodash -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+      integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
 
   <body>
@@ -241,69 +249,100 @@
                 </ol>
 
                 <!-- Modal -->
-                <form action="/admin/events" method="POST">
+                <div
+                  class="modal fade"
+                  id="exampleModalCenter"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true"
+                >
                   <div
-                    class="modal fade"
-                    id="exampleModalCenter"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-labelledby="exampleModalCenterTitle"
-                    aria-hidden="true"
+                    class="modal-dialog modal-dialog-centered"
+                    role="document"
                   >
-                    <div
-                      class="modal-dialog modal-dialog-centered"
-                      role="document"
-                    >
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">
-                            Create event
-                          </h5>
-                          <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <label><b>Event name:</b></label
-                          ><br />
-                          <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            style="width: 300px"
-                          /><br />
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                          Create event
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <label
+                          ><b
+                            >Event name:<sup style="color: red">*</sup></b
+                          ></label
+                        ><br />
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          style="width: 300px"
+                        /><br />
+                        <br />
+                        <label
+                          ><b
+                            >Event date:<sup style="color: red">*</sup></b
+                          ></label
+                        ><br />
+                        <input
+                          type="date"
+                          id="date"
+                          name="date"
+                          style="width: 300px"
+                        />
+                        <div class="status">
                           <br />
-                          <label><b>Event date:</b></label
+                          <label
+                            ><b>Status<sup style="color: red">*</sup></b></label
                           ><br />
                           <input
-                            type="date"
-                            id="date"
-                            name="date"
-                            style="width: 300px"
+                            type="radio"
+                            id="active"
+                            name="status"
+                            value="active"
+                            checked
                           />
+                            <label for="active">Active</label>
+                           
+                          <input
+                            type="radio"
+                            id="inactive"
+                            name="status"
+                            value="inactive"
+                          />
+                            <label for="inactive">Inactive</label>
                         </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal"
-                          >
-                            Close
-                          </button>
-                          <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-plus" aria-hidden="true"></i> &nbsp;
-                            Create event
-                          </button>
-                        </div>
+                        <div id="error-div"></div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="submit"
+                          id="submitBtn"
+                          class="btn btn-primary"
+                        >
+                          <i class="fa fa-plus" aria-hidden="true"></i> &nbsp;
+                          Create event
+                        </button>
                       </div>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -325,7 +364,7 @@
                   <table class="table no-wrap">
                     <thead>
                       <tr>
-                        <th class="border-top-0">#</th>
+                        <th class="border-top-0">Action</th>
                         <th class="border-top-0">Name</th>
                         <th class="border-top-0">Date</th>
                         <th class="border-top-0">Photos</th>
@@ -335,7 +374,7 @@
                       <% if(eventsData.length === 0) { %>
                       <p>No events found!</p>
                       <!-- Giving message if no events found -->
-                      <% } else { let index = 1;
+                      <% } else {
                       <!-- Looping through the data -->
                       eventsData.forEach(element => { let eventDate =
                       element.date.getDate(); const eventMonth =
@@ -346,15 +385,34 @@
                       <!-- Concating date to Month Date, Year format -->
                       %>
                       <tr>
-                        <td><%= index %></td>
+                        <td>
+                          <% if(element.status === 'active') { %>
+                          <i
+                            style="
+                              cursor: pointer;
+                              color: #37e831;
+                              margin-left: 10px;
+                            "
+                            class="fas fa-pause"
+                            onclick="changeEventStatus('<%= element._id %>')"
+                          ></i>
+                          <% } else { %>
+                          <i
+                            style="cursor: pointer; margin-left: 10px"
+                            class="fas fa-play"
+                            onclick="changeEventStatus('<%= element._id %>')"
+                          ></i>
+                          <% } %> &nbsp;
+                        </td>
                         <td class="txt-oflo"><%= element.name %></td>
                         <td class="txt-oflo"><%= eventFullDate %></td>
-                        <td><span class="text-info">140</span></td>
+                        <td id="photos"><span class="text-info">140</span></td>
                       </tr>
-                      <% index++; }) } %>
+                      <% }) } %>
                     </tbody>
                   </table>
                 </div>
+                <div id="notification"></div>
               </div>
             </div>
           </div>
@@ -397,5 +455,6 @@
     <!--chartis chart-->
     <script src="../admin-assets/plugins/bower_components/chartist/dist/chartist.min.js"></script>
     <script src="../admin-assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../events.js"></script>
   </body>
 </html>

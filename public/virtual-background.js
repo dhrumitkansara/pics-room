@@ -119,5 +119,14 @@ const setFilter = (property) => {
 
 const postCaptureData = async (data) => {
   const sendData = { data }; // Creating JSON object to pass it to backend
-  await axios.post("/save-capture-data", sendData); // Sending POST request to backend
+  // Sending POST request to backend
+  await fetch("/save-capture-data", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(sendData),
+  }).catch((error) => {
+    console.error("Error:", error);
+  });
 };
