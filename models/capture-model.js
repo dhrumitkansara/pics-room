@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const captureImageSchema = mongoose.Schema(
   {
     imageUrl: String,
+    event: Object,
   },
   { timestamps: {} }
 );
