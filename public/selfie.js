@@ -1,6 +1,5 @@
 // JS for selfie frontend lives here...
 
-let activeEvent;
 const videoGrid = document.getElementById("video-grid"); // Getting video-grid div
 const myVideo = document.createElement("video"); // Creating video element in HTML
 myVideo.muted = true;
@@ -47,13 +46,6 @@ btnCapture.addEventListener("click", () => {
   let reCaptureButton = document.createElement("button"); // Creating recapture button
   let dowloadButton = document.createElement("button"); // Creating download button
   let canvas = document.createElement("canvas");
-
-  // Styling the canvas
-  canvas.style.margin = "20px 20px 20px 20px";
-  canvas.style.height = "300px";
-  canvas.style.width = "400px";
-  canvas.style.objectFit = "cover";
-
   let context = canvas.getContext("2d");
   context.drawImage(myVideo, 0, 0, 400, 300);
 
@@ -96,17 +88,8 @@ btnCapture.addEventListener("click", () => {
 });
 
 const postCaptureData = async (data) => {
-  const sendData = { imageUrl: data, event: activeEvent }; // Creating JSON object to pass it to backend
-  // Sending POST request to backend
-  await fetch("/save-capture-data", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(sendData),
-  }).catch((error) => {
-    console.error("Error:", error);
-  });
+  const sendData = { data }; // Creating JSON object to pass it to backend
+  await axios.post("/save-capture-data", sendData); // Sending POST request to backend
 };
 
 // Function to download captured image
@@ -135,21 +118,4 @@ const setFrame = (frameUrl) => {
 // setFilter method to set filters on video
 const setFilter = (property) => {
   myVideo.style.filter = property; // Setting filter to video
-};
-
-window.onload = async () => {
-  // Sending GET request to backend
-  await fetch("/admin/get-active-event", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      activeEvent = data;
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
 };

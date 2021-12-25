@@ -1,7 +1,5 @@
 const submitBtn = document.getElementById("submitBtn");
-const errorDiv = document.getElementById("error-div");
 let srcData;
-let validationErrorFlag = false;
 
 // Function that converts image to base64 url
 const encodeImageFileAsURL = () => {
@@ -19,45 +17,19 @@ const encodeImageFileAsURL = () => {
 };
 
 submitBtn.addEventListener("click", async () => {
+  if (srcData === undefined) {
+    alert("src data is empty");
+  }
+
   let status = document.querySelector("input[name = status]:checked").value;
   let selectedEvent = $('[name="events"]').val();
 
-  if (_.isEmpty(srcData)) {
-    validationErrorFlag = true;
-    errorDiv.innerHTML = `<p style="color: red"> Please select a frame! </p>`;
-  }
-
-  if (_.isEmpty(selectedEvent)) {
-    validationErrorFlag = true;
-    errorDiv.innerHTML = `<p style="color: red"> Please select an event! </p>`;
-  }
-
-  if (validationErrorFlag == false) {
-    const frameObjectData = { frameUrl: srcData, event: selectedEvent, status };
-
-    // Sending POST request to backend
-    await fetch("/admin/add-frame", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(frameObjectData),
-    }).catch((error) => {
-      console.error("Error:", error);
-    });
-    window.location.reload();
-  }
+  const frameObjectData = { frameUrl: srcData, event: selectedEvent, status };
+  await axios.post("/admin/add-frame", frameObjectData); // Sending POST request to backend
+  window.location.reload();
 });
 
 const setInactive = async (frameUrl) => {
   const frameObjectData = { frameUrl };
-  await fetch("/admin//update-frame", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(frameObjectData),
-  }).catch((error) => {
-    console.error("Error:", error);
-  });
+  await axios.post("/admin//update-frame", frameObjectData);
 };

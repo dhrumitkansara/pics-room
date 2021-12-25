@@ -45,18 +45,15 @@ app.get("/", (req, res) => {
 
 // Save captured image endpoint
 app.post("/save-capture-data", (req, res) => {
-  const capturedData = {
-    imageUrl: req.body.imageUrl,
-    event: { _id: req.body.event, _ref: "events" },
-  };
+  let capturedUrl = { imageUrl: req.body.data }; // Extracting image url from request body
 
   // Creating document in captured collection
-  captureData.create(capturedData, (err, data) => {
+  captureData.create(capturedUrl, (err, data) => {
     if (err) {
       console.log("Error saving captured image data: ", err);
       res.status(500).send(err);
     } else {
-      console.log("Image data saved: ", capturedData);
+      console.log("Image data saved: ", capturedUrl);
       res.status(201).send(data);
     }
   });

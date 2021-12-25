@@ -61,40 +61,6 @@ exports.events = (req, res) => {
     .sort({ createdAt: -1 });
 };
 
-exports.loadEvents = (req, res) => {
-  // Fetching events data
-  eventsData
-    .find((err, data) => {
-      if (err) {
-        console.log("Error fetching events data: ", err);
-        res.status(500).send(err); // Throwing error
-      } else {
-        console.log("Fetched load events data: ", data);
-        res.status(200).send(data); // Sending events data
-      }
-    })
-    .sort({ createdAt: -1 });
-};
-
-exports.activeEvent = (req, res) => {
-  // Fetching events data
-  eventsData
-    .find((err, data) => {
-      if (err) {
-        console.log("Error fetching events data: ", err);
-        res.status(500).send(err); // Throwing error
-      } else {
-        console.log("Fetched active events data: ", data);
-        data.map((eventData) => {
-          if (eventData.status === "active") {
-            res.status(200).send(eventData._id); // Sending active event's id
-          }
-        });
-      }
-    })
-    .sort({ createdAt: -1 });
-};
-
 exports.photos = (req, res) => {
   // Fetching captured images data for photos page
   captureData
@@ -106,23 +72,6 @@ exports.photos = (req, res) => {
       }
     })
     .sort({ createdAt: -1 });
-};
-
-exports.get_photos = (req, res) => {
-  // Fetching captured images data for photos
-
-  let requestPhotoData = req.body;
-  captureData.findById(
-    { _id: requestPhotoData },
-    (requestPhotoData,
-    (err, data) => {
-      if (err) {
-        res.status(500).send(err); // Throwing error
-      } else {
-        res.status(200).send(data); // Sending photos data
-      }
-    })
-  );
 };
 
 exports.customize = (req, res) => {
@@ -229,22 +178,4 @@ exports.update_frame = (req, res) => {
       }
     }
   });
-};
-
-exports.update_event = (req, res) => {
-  let requestEventData = req.body;
-
-  // Updating event status based on id
-  eventsData.findByIdAndUpdate(
-    { _id: requestEventData.id },
-    { status: requestEventData.status },
-    (requestEventData,
-    (err, data) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.status(201).send(data); // Sending updated event data
-      }
-    })
-  );
 };

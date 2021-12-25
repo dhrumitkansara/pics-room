@@ -68,17 +68,7 @@ btnCapture.addEventListener("click", () => {
 
 const postCaptureData = async (data) => {
   const sendData = { data }; // Creating JSON object to pass it to backend
-
-  // Sending POST request to backend
-  await fetch("/save-capture-data", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(sendData),
-  }).catch((error) => {
-    console.error("Error:", error);
-  });
+  await axios.post("/save-capture-data", sendData); // Sending POST request to backend
 };
 
 // setFilter method to set filters on video
