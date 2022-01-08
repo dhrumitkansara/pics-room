@@ -6,6 +6,7 @@ const eventSchema = mongoose.Schema(
     name: String,
     date: Date,
     status: String,
+    deleted: Boolean,
   },
   { timestamps: {} }
 );

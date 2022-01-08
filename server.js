@@ -7,6 +7,9 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, { debug: true }); // Creating peer.js server
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+let oneDay = 1000 * 60 * 60 * 24;
 
 // Routes import
 let selfieRoutes = require("./routes/selfie-routes");
@@ -27,10 +30,26 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "*");
   next();
 });
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay },
+    resave: false,
+  })
+);
+app.use(cookieParser());
 
 // Routes middleware
 app.use("/selfie", selfieRoutes);
 app.use("/admin", adminRoutes);
+app.use((req, res, next) => {
+  if (req.session == null) {
+    res.redirect("/admin/signin");
+  } else {
+    next();
+  }
+});
 
 // DB configs
 mongoose.connect(process.env.CONNECTION_URL, {

@@ -129,7 +129,7 @@
               <!-- User profile and search -->
               <!-- ============================================================== -->
               <li>
-                <a class="profile-pic" href="#">
+                <a class="profile-pic" href="/admin/signout">
                   <i class="fa fa-sign-out-alt" aria-hidden="true"></i>
                   &nbsp;<span class="text-white font-medium">Sign out</span></a
                 >
@@ -366,6 +366,15 @@
                 <div class="d-md-flex mb-3">
                   <h3 class="box-title mb-0">All Frames</h3>
                 </div>
+                <!-- Status Confirmation Modal -->
+                <div
+                  class="modal fade"
+                  id="statusConfirmationModal"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="statusConfirmationModalTitle"
+                  aria-hidden="true"
+                ></div>
                 <div>
                   <% if(framesData.length === 0) { %>
                   <p>No frames found!</p>
@@ -374,8 +383,11 @@
                     src="<%= element.frameUrl %>"
                     class="lg img-circle"
                     alt="img"
-                    style="width: 150px; margin-right: 20px"
+                    style="width: 150px; margin-right: 20px; cursor: pointer"
+                    data-toggle="modal"
+                    data-target="#statusConfirmationModal"
                     onclick="setInactive('<%= element.frameUrl %>')"
+                    type="button"
                   />
                   <% }) } %>
                 </div>

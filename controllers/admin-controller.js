@@ -3,68 +3,108 @@ const adminData = require("../models/user-model");
 const captureData = require("../models/capture-model");
 const eventsData = require("../models/events-model");
 const framesData = require("../models/frames-model");
+let session = require("express-session");
+let bcrypt = require("bcrypt");
 
 // Controller functions
 exports.signin = (req, res) => {
   res.render("admin/admin-sign-in");
 };
 
-exports.dashboard = (req, res) => {
-  eventsData
-    .find((err, eventsData) => {
-      if (err) {
-        console.log("Error fetching events data: ", err);
-        res.status(500).send(err); // Throwing error
-      } else {
-        console.log("Fetched events data: ", eventsData);
-        captureData
-          .find((err, capturedImageData) => {
-            if (err) {
-              console.log("Error fetching captured image data: ", err);
-              res.status(500).send(err); // Throwing error
-            }
-            console.log("Fetched captured data: ", capturedImageData);
-            res.render("admin/dashboard", {
-              eventsData: eventsData,
-              capturedImageData: capturedImageData,
-            }); // Rendering dashboard view and passing fetched data to the view
-          })
-          .sort({ createdAt: -1 });
-      }
-    })
-    .sort({ createdAt: -1 });
-};
-
-exports.profile = (req, res) => {
-  //   Fetching admin data
-  adminData.find((err, data) => {
-    if (err) {
-      res.status(500).send(err); // Throwing error
-    } else {
-      res.render("admin/profile", { profileData: data }); // Rendering profile view and passing fetched profile data to the view
+exports.login = (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  session = req.session;
+  session.email = email;
+  session.password = password;
+  adminData.findOne({ email }, (err, data) => {
+    if (data) {
+      bcrypt.compare(password, data.password, (err, match) => {
+        if (match) {
+          session.isAuthenticated = true;
+          res.redirect("/admin/dashboard");
+        } else {
+          // res.redirect("/admin/signin");
+          res.status(401).send({ status: 401, message: "Invalid credentials" });
+        }
+      });
     }
   });
 };
 
-exports.events = (req, res) => {
-  // Fetching events data
-  eventsData
-    .find((err, data) => {
+exports.logout = (req, res) => {
+  if (req.session) req.session.destroy();
+  res.redirect("/admin/signin");
+};
+
+exports.dashboard = (req, res) => {
+  if (req.session.isAuthenticated) {
+    eventsData
+      .find({ deleted: false }, (err, eventsData) => {
+        if (err) {
+          console.log("Error fetching events data: ", err);
+          res.status(500).send(err); // Throwing error
+        } else {
+          console.log("Fetched events data: ", eventsData);
+          captureData
+            .find((err, capturedImageData) => {
+              if (err) {
+                console.log("Error fetching captured image data: ", err);
+                res.status(500).send(err); // Throwing error
+              }
+              console.log("Fetched captured data: ", capturedImageData);
+              res.render("admin/dashboard", {
+                eventsData: eventsData,
+                capturedImageData: capturedImageData,
+              }); // Rendering dashboard view and passing fetched data to the view
+            })
+            .sort({ createdAt: -1 });
+        }
+      })
+      .sort({ createdAt: -1 });
+  } else {
+    res.redirect("/admin/signin");
+  }
+};
+
+exports.profile = (req, res) => {
+  if (req.session.isAuthenticated) {
+    //   Fetching admin data
+    adminData.find((err, data) => {
       if (err) {
-        console.log("Error fetching events data: ", err);
         res.status(500).send(err); // Throwing error
       } else {
-        console.log("Fetched events data: ", data);
-        res.render("admin/events", { eventsData: data }); // Rendering profile view and passing fetched profile data to the view
+        res.render("admin/profile", { profileData: data }); // Rendering profile view and passing fetched profile data to the view
       }
-    })
-    .sort({ createdAt: -1 });
+    });
+  } else {
+    res.redirect("/admin/signin");
+  }
+};
+
+exports.events = (req, res) => {
+  if (req.session.isAuthenticated) {
+    // Fetching events data
+    eventsData
+      .find({ deleted: false }, (err, data) => {
+        if (err) {
+          console.log("Error fetching events data: ", err);
+          res.status(500).send(err); // Throwing error
+        } else {
+          console.log("Fetched events data: ", data);
+          res.render("admin/events", { eventsData: data }); // Rendering profile view and passing fetched profile data to the view
+        }
+      })
+      .sort({ createdAt: -1 });
+  } else {
+    res.redirect("/admin/signin");
+  }
 };
 
 exports.loadEvents = (req, res) => {
   // Fetching events data
   eventsData
-    .find((err, data) => {
+    .find({ deleted: false }, (err, data) => {
       if (err) {
         console.log("Error fetching events data: ", err);
         res.status(500).send(err); // Throwing error
@@ -79,16 +119,14 @@ exports.loadEvents = (req, res) => {
 exports.activeEvent = (req, res) => {
   // Fetching events data
   eventsData
-    .find((err, data) => {
+    .find({ status: "active" }, (err, data) => {
       if (err) {
         console.log("Error fetching events data: ", err);
         res.status(500).send(err); // Throwing error
       } else {
         console.log("Fetched active events data: ", data);
         data.map((eventData) => {
-          if (eventData.status === "active") {
-            res.status(200).send(eventData._id); // Sending active event's id
-          }
+          res.status(200).send(eventData._id); // Sending active event's id
         });
       }
     })
@@ -96,16 +134,20 @@ exports.activeEvent = (req, res) => {
 };
 
 exports.photos = (req, res) => {
-  // Fetching captured images data for photos page
-  captureData
-    .find((err, data) => {
-      if (err) {
-        res.status(500).send(err); // Throwing error
-      } else {
-        res.render("admin/photos", { capturedImageData: data }); // Rendering photos view and passing fetched photos data to the view
-      }
-    })
-    .sort({ createdAt: -1 });
+  if (req.session.isAuthenticated) {
+    // Fetching captured images data for photos page
+    captureData
+      .find((err, data) => {
+        if (err) {
+          res.status(500).send(err); // Throwing error
+        } else {
+          res.render("admin/photos", { capturedImageData: data }); // Rendering photos view and passing fetched photos data to the view
+        }
+      })
+      .sort({ createdAt: -1 });
+  } else {
+    res.redirect("/admin/signin");
+  }
 };
 
 exports.get_photos = (req, res) => {
@@ -126,29 +168,33 @@ exports.get_photos = (req, res) => {
 };
 
 exports.customize = (req, res) => {
-  framesData
-    .find((err, data) => {
-      if (err) {
-        console.log("Error fetching frames data: ", err);
-        res.status(500).send(err); // Throwing error
-      } else {
-        console.log("Fetched frames data: ", data);
-        eventsData.find((err, eventsData) => {
-          if (err) {
-            console.log("Error fetching events data: ", err);
-            res.status(500).send(err); // Throwing error
-          } else {
-            console.log("Fetched events data: ", data);
+  if (req.session.isAuthenticated) {
+    framesData
+      .find({ status: "active" }, (err, data) => {
+        if (err) {
+          console.log("Error fetching frames data: ", err);
+          res.status(500).send(err); // Throwing error
+        } else {
+          console.log("Fetched frames data: ", data);
+          eventsData.find((err, eventsData) => {
+            if (err) {
+              console.log("Error fetching events data: ", err);
+              res.status(500).send(err); // Throwing error
+            } else {
+              console.log("Fetched events data: ", data);
 
-            res.render("admin/customize", {
-              framesData: data,
-              eventsData: eventsData,
-            }); // Rendering profile view and passing fetched profile data to the view
-          }
-        });
-      }
-    })
-    .sort({ createdAt: -1 });
+              res.render("admin/customize", {
+                framesData: data,
+                eventsData: eventsData,
+              }); // Rendering profile view and passing fetched profile data to the view
+            }
+          });
+        }
+      })
+      .sort({ createdAt: -1 });
+  } else {
+    res.redirect("/admin/signin");
+  }
 };
 
 exports.create_event = (req, res) => {
@@ -238,6 +284,24 @@ exports.update_event = (req, res) => {
   eventsData.findByIdAndUpdate(
     { _id: requestEventData.id },
     { status: requestEventData.status },
+    (requestEventData,
+    (err, data) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(201).send(data); // Sending updated event data
+      }
+    })
+  );
+};
+
+exports.delete_event = (req, res) => {
+  let requestEventData = req.body;
+
+  // Updating event status based on id
+  eventsData.findByIdAndUpdate(
+    { _id: requestEventData.id },
+    { deleted: requestEventData.deleted, status: "inactive" },
     (requestEventData,
     (err, data) => {
       if (err) {

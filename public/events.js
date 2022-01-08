@@ -2,11 +2,17 @@ const eventName = document.getElementById("name");
 const eventDate = document.getElementById("date");
 const submitBtn = document.getElementById("submitBtn");
 const errorDiv = document.getElementById("error-div");
-const notificationDiv = document.getElementById("notification");
+const eventModalDiv = document.getElementById("eventConfirmationModal");
+let deleteEventModalDiv = document.getElementById("deleteConfirmationModal");
 
 let validationErrorFlag = false;
 let allEventsData;
 let activeEvent;
+let toBeUpdatedEventId;
+let updatedStatus;
+let eventActive = false;
+let notificationString = "";
+let toBeDeletedEventId;
 
 submitBtn.addEventListener("click", async () => {
   //   Form data validations
@@ -25,6 +31,7 @@ submitBtn.addEventListener("click", async () => {
       name: eventName.value,
       date: eventDate.value,
       status: "inactive",
+      deleted: false,
     };
 
     // Sending POST request to backend
@@ -41,14 +48,13 @@ submitBtn.addEventListener("click", async () => {
   }
 });
 
-const changeEventStatus = async (id) => {
-  let updatedStatus;
-  let eventActive = false;
+const changeEventStatus = (id) => {
+  toBeUpdatedEventId = id;
   allEventsData.map((eventData) => {
     if (eventData.status === "active") {
       eventActive = true;
       if (eventData._id === id) {
-        notificationDiv.style.display = "none";
+        notificationString = "";
         updatedStatus = "inactive"; // Setting status inactive if active
         eventActive = false;
       }
@@ -65,13 +71,86 @@ const changeEventStatus = async (id) => {
         }
       }
     } else {
-      notificationDiv.innerHTML = `<strong style="color: red"> You can only run one event at a time! </strong>`;
+      notificationString = `<strong style="color: red"> You can only run one event at a time! </strong>`;
     }
   });
 
-  //   Updating event's status
+  if (notificationString === "") {
+    eventModalDiv.innerHTML = `
+    <div
+      class="modal-dialog modal-dialog-centered"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eventConfirmationModalLongTitle">
+            Update event status?
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">Are you sure, you want to update the event status? This will update all data associated with the event.</div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="button" onclick="updateEventStatus()" class="btn btn-primary">
+            Update
+          </button>
+          <br />
+        <div>${notificationString}</div>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    eventModalDiv.innerHTML = `
+    <div
+      class="modal-dialog modal-dialog-centered"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eventConfirmationModalLongTitle">
+            Oops!
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">You can run only one event at a time.</div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }
+};
+
+const updateEventStatus = async () => {
   if (!eventActive) {
-    const eventUpdateObject = { id, status: updatedStatus };
+    const eventUpdateObject = { id: toBeUpdatedEventId, status: updatedStatus };
+
     // Sending POST request to backend
     await fetch("/admin/update-event", {
       method: "POST",
@@ -84,6 +163,59 @@ const changeEventStatus = async (id) => {
     });
     window.location.reload();
   }
+};
+
+const deleteEvent = (id) => {
+  toBeDeletedEventId = id;
+  deleteEventModalDiv.innerHTML = `
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+  >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id=deleteConfirmationModalLongTitle">
+        Delete event?
+      </h5>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">Are you sure, you want to delete event? The data associated with the event will still be available.</div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >
+          Cancel
+        </button>
+        <button type="button"  onclick="deleteCurrentEvent()" class="btn btn-danger">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>`;
+};
+
+const deleteCurrentEvent = async () => {
+  const eventUpdateObject = { id: toBeDeletedEventId, deleted: true };
+  // Sending POST request to backend
+  await fetch("/admin/delete-event", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventUpdateObject),
+  }).catch((error) => {
+    console.error("Error:", error);
+  });
+  window.location.reload();
 };
 
 window.onload = async () => {

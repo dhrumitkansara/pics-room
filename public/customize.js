@@ -1,7 +1,9 @@
 const submitBtn = document.getElementById("submitBtn");
 const errorDiv = document.getElementById("error-div");
+const confirmationModal = document.getElementById("statusConfirmationModal");
 let srcData;
 let validationErrorFlag = false;
+let updateFrameUrl;
 
 // Function that converts image to base64 url
 const encodeImageFileAsURL = () => {
@@ -50,7 +52,45 @@ submitBtn.addEventListener("click", async () => {
 });
 
 const setInactive = async (frameUrl) => {
-  const frameObjectData = { frameUrl };
+  updateFrameUrl = frameUrl;
+  confirmationModal.innerHTML = `
+  <div
+      class="modal-dialog modal-dialog-centered"
+      role="document"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="statusConfirmationModalLongTitle">
+            Update frame status?
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">Are you sure, you want to update the frame status? This will update frame status across the app.</div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="button" onclick="updateFrameStatus()" class="btn btn-primary">
+            Update
+          </button>
+        </div>
+      </div>
+    </div>`;
+};
+
+const updateFrameStatus = async () => {
+  const frameObjectData = { frameUrl: updateFrameUrl };
   await fetch("/admin//update-frame", {
     method: "POST",
     headers: {
@@ -60,4 +100,5 @@ const setInactive = async (frameUrl) => {
   }).catch((error) => {
     console.error("Error:", error);
   });
+  window.location.reload();
 };

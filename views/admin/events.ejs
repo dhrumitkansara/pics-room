@@ -129,7 +129,7 @@
               <!-- User profile and search -->
               <!-- ============================================================== -->
               <li>
-                <a class="profile-pic" href="#">
+                <a class="profile-pic" href="/admin/signout">
                   <i class="fa fa-sign-out-alt" aria-hidden="true"></i>
                   &nbsp;<span class="text-white font-medium">Sign out</span></a
                 >
@@ -338,6 +338,25 @@
                 <div class="d-md-flex mb-3">
                   <h3 class="box-title mb-0">All events</h3>
                 </div>
+                <!-- Start-Stop Event Modal -->
+                <div
+                  class="modal fade"
+                  id="eventConfirmationModal"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="eventConfirmationModalTitle"
+                  aria-hidden="true"
+                ></div>
+
+                <!-- Delete Event Modal -->
+                <div
+                  class="modal fade"
+                  id="deleteConfirmationModal"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="deleteConfirmationModalTitle"
+                  aria-hidden="true"
+                ></div>
                 <div class="table-responsive">
                   <table class="table no-wrap">
                     <thead>
@@ -372,15 +391,29 @@
                               margin-left: 10px;
                             "
                             class="fas fa-pause"
+                            data-toggle="modal"
+                            data-target="#eventConfirmationModal"
                             onclick="changeEventStatus('<%= element._id %>')"
+                            type="button"
                           ></i>
                           <% } else { %>
                           <i
                             style="cursor: pointer; margin-left: 10px"
                             class="fas fa-play"
+                            data-toggle="modal"
+                            data-target="#eventConfirmationModal"
                             onclick="changeEventStatus('<%= element._id %>')"
+                            type="button"
                           ></i>
                           <% } %> &nbsp;
+                          <i
+                            style="cursor: pointer"
+                            class="far fa-trash-alt"
+                            data-toggle="modal"
+                            data-target="#deleteConfirmationModal"
+                            onclick="deleteEvent('<%= element._id %>')"
+                            type="button"
+                          ></i>
                         </td>
                         <td class="txt-oflo"><%= element.name %></td>
                         <td class="txt-oflo"><%= eventFullDate %></td>
@@ -390,7 +423,6 @@
                     </tbody>
                   </table>
                 </div>
-                <div id="notification"></div>
               </div>
             </div>
           </div>
